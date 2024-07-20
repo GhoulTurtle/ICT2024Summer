@@ -62,6 +62,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchWorld"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ab15208-5a78-42fa-9035-74c25b53428c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -238,6 +247,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Sliding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dda4887f-34d7-4f37-9e18-9e0ccb20a092"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchWorld"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8484616c-3d31-4a19-be35-b1995280bb62"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchWorld"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -829,6 +860,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sliding = m_Player.FindAction("Sliding", throwIfNotFound: true);
+        m_Player_SwitchWorld = m_Player.FindAction("SwitchWorld", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -906,6 +938,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sliding;
+    private readonly InputAction m_Player_SwitchWorld;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -914,6 +947,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Sliding => m_Wrapper.m_Player_Sliding;
+        public InputAction @SwitchWorld => m_Wrapper.m_Player_SwitchWorld;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -935,6 +969,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Sliding.started += instance.OnSliding;
             @Sliding.performed += instance.OnSliding;
             @Sliding.canceled += instance.OnSliding;
+            @SwitchWorld.started += instance.OnSwitchWorld;
+            @SwitchWorld.performed += instance.OnSwitchWorld;
+            @SwitchWorld.canceled += instance.OnSwitchWorld;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -951,6 +988,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Sliding.started -= instance.OnSliding;
             @Sliding.performed -= instance.OnSliding;
             @Sliding.canceled -= instance.OnSliding;
+            @SwitchWorld.started -= instance.OnSwitchWorld;
+            @SwitchWorld.performed -= instance.OnSwitchWorld;
+            @SwitchWorld.canceled -= instance.OnSwitchWorld;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1137,6 +1177,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSliding(InputAction.CallbackContext context);
+        void OnSwitchWorld(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

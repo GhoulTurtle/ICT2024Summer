@@ -133,6 +133,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8962766721060918596}
+  - {fileID: 5894499067464928883}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1852276254745281450
@@ -167,6 +168,51 @@ Transform:
   - {fileID: 7016605156091963076}
   m_Father: {fileID: 8962766721060918596}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2268740175548237515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5894499067464928883}
+  - component: {fileID: 2010048598352576165}
+  m_Layer: 0
+  m_Name: WorldSwitchManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5894499067464928883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2268740175548237515}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4486562020692288098}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2010048598352576165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2268740175548237515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89383ff4bbce7bf4abbc7dcb8db4e825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingWorldType: 0
 --- !u!1 &2651386995976691699
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +226,7 @@ GameObject:
   - component: {fileID: 7435937787715749586}
   - component: {fileID: 1850541924174549503}
   - component: {fileID: 4119826213055038717}
+  - component: {fileID: 3437575610552478757}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -361,6 +408,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f0fe0d12-c4e9-42e5-8a6b-5e4622809b3b
     m_ActionName: Player/Sliding[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3437575610552478757}
+        m_TargetAssemblyTypeName: PlayerWorldSwitch, Assembly-CSharp
+        m_MethodName: WorldSwitch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9ab15208-5a78-42fa-9035-74c25b53428c
+    m_ActionName: Player/SwitchWorld[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -421,6 +484,20 @@ MonoBehaviour:
   cameraRoot: {fileID: 8605122518503848699}
   cameraTransform: {fileID: 7016605156091963076}
   characterOrientation: {fileID: 2900702725712838363}
+--- !u!114 &3437575610552478757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2651386995976691699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c85810491542947a2df9b204e3a595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWorldSwitchUnlocked: 1
+  worldSwitchCooldown: 0.25
 --- !u!1 &3804574801007783876
 GameObject:
   m_ObjectHideFlags: 0
