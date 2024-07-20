@@ -13,6 +13,15 @@ public class PlayerMovement : MonoBehaviour{
 
 	[Header("Base Movement Variables")]
 	[SerializeField] private float movementSpeed;
+
+	[Header("Jumping Variables")]
+	[SerializeField] private float jumpHeight = 0.3f;
+	[SerializeField] private float slideJumpHeight = 0.75f;
+	[SerializeField] private float slideJumpWindow = 0.5f;
+	[SerializeField] private float jumpCooldown = 0.15f;
+
+	[Header("Sliding Variables")]
+	[SerializeField] private float slideShrinkTimeInSeconds = 0.1f;
 	[SerializeField] private float slideDurationTimeInSeconds;
 	[SerializeField] private float slideSpeed;
 	[SerializeField] private float slideHeight = 0.5f;
@@ -44,6 +53,7 @@ public class PlayerMovement : MonoBehaviour{
 	private float standingHeight;
 
 	private bool grounded;
+	private bool isSliding;
 
 	private Vector2 previousMoveInput;
 	private Vector2 playerMoveInput;
@@ -51,9 +61,10 @@ public class PlayerMovement : MonoBehaviour{
 	private Vector3 initialCameraPosition;
 	private Vector3 initialGroundCheckPosition;
 
+	private IEnumerator currentJumpCooldown;
+	private IEnumerator currentSlideJumpWindow;
 	private IEnumerator currentSlideCooldown;
 	private IEnumerator currentSlideAction;
-	private IEnumerator currentStandingCheck;
 
 	private void Start() {
 		standingHeight = characterController.height;
@@ -80,10 +91,27 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void SlideInput(InputAction.CallbackContext context){
-		if(currentSlideCooldown != null || context.phase != InputActionPhase.Performed) return;
+		if(currentSlideCooldown != null || context.phase != InputActionPhase.Performed || !grounded) return;
 		if(currentSlideAction == null){
 			StartSliding();
 		}
+	}
+
+	public void JumpInput(InputAction.CallbackContext context){
+		if(context.phase != InputActionPhase.Performed || currentJumpCooldown != null || !grounded || isSliding) return;
+
+		float height = jumpHeight;
+
+		if(currentSlideJumpWindow != null){
+			height = slideJumpHeight;
+			StopCoroutine(currentSlideJumpWindow);
+			currentSlideJumpWindow = null;
+		}
+
+		verticalVelocity = Mathf.Sqrt(height * -2f * gravity);
+
+		currentJumpCooldown = JumpCooldownCoroutine();
+		StartCoroutine(currentJumpCooldown);
 	}
 
 	private void GroundCheck(){
@@ -102,6 +130,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void StartSliding(){
+		isSliding = true;
 		currentSlideAction = SlideLerpAnimationCoroutine(slideHeight);
 		StartCoroutine(currentSlideAction);
 
@@ -144,26 +173,52 @@ public class PlayerMovement : MonoBehaviour{
 
 	private IEnumerator SlideLerpAnimationCoroutine(float desiredHeight){
 		float current = 0;
+		float initialYPosition = transform.position.y;
+		float targetYPosition = initialYPosition - (standingHeight - desiredHeight) / 2;
 
 		while(Mathf.Abs(characterController.height - desiredHeight) > slideSnapDistance){
-			characterController.height = Mathf.Lerp(characterController.height, desiredHeight, current / slideDurationTimeInSeconds);
+			characterController.height = Mathf.Lerp(characterController.height, desiredHeight, current / slideShrinkTimeInSeconds);
 
 			var halfHeightDifference = new Vector3(0, (standingHeight - characterController.height) / 2, 0);
 			var newCameraPos = initialCameraPosition - halfHeightDifference;
 
-			cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newCameraPos, current / slideDurationTimeInSeconds) ;
+			cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newCameraPos, current / slideShrinkTimeInSeconds) ;
 
 			var newGroundCheckPos = initialGroundCheckPosition + halfHeightDifference;
 			groundCheckTransform.localPosition = newGroundCheckPos;
+
+			float newYPosition = Mathf.Lerp(initialYPosition, targetYPosition, current / slideShrinkTimeInSeconds);
+    		verticalVelocity = (newYPosition - transform.position.y) / Time.deltaTime;
 
 			current += Time.deltaTime;
 			yield return null;
 		}
 
-		SlideEnded();
+    	verticalVelocity = (targetYPosition - transform.position.y) / Time.deltaTime;
+		characterController.height = desiredHeight;
+		if(desiredHeight == standingHeight){
+			verticalVelocity = (targetYPosition - transform.position.y) * 1.1f / Time.deltaTime;
+			cameraTransform.localPosition = initialCameraPosition;
+			groundCheckTransform.localPosition = initialGroundCheckPosition;
+		}
+
+		currentSlideAction = null;
+		OnSlideShrinkFinished();
 	}
 
-	private IEnumerator SlideMovementCoroutine(){
+    private void OnSlideShrinkFinished(){
+		if(currentSlideAction == null && characterController.height != standingHeight){
+			currentSlideAction = SlideLerpAnimationCoroutine(standingHeight);
+			StartCoroutine(currentSlideAction);
+		}
+		else{
+			isSliding = false;
+			currentSlideJumpWindow = SlideJumpWindowCoroutine();
+			StartCoroutine(currentSlideJumpWindow);
+		}
+    }
+
+    private IEnumerator SlideMovementCoroutine(){
 		float elapsedTime = 0f;
     	while (elapsedTime < slideDurationTimeInSeconds){
 			Vector3 slideDirection = cameraTransform.forward;
@@ -173,9 +228,15 @@ public class PlayerMovement : MonoBehaviour{
     	}
 	}
 
-    private void SlideEnded(){
-		currentSlideAction = null;
-    }
+	private IEnumerator SlideJumpWindowCoroutine(){
+		yield return new WaitForSeconds(slideJumpWindow);
+		currentSlideJumpWindow = null;
+	}
+
+	private IEnumerator JumpCooldownCoroutine(){
+		yield return new WaitForSeconds(jumpCooldown);
+		currentJumpCooldown = null;
+	}
 
     private IEnumerator SlideCooldownCoroutine(){
 		yield return new WaitForSeconds(slideCooldown);
