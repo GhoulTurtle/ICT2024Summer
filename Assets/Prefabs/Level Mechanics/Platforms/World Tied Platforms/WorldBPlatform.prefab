@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6024023476282521295}
   - component: {fileID: 6269783574655785332}
   - component: {fileID: 6873507878294177618}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WorldBPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,5 +122,5 @@ MonoBehaviour:
   recieverCollider: {fileID: 6269783574655785332}
   recieverMeshRenderer: {fileID: 6024023476282521295}
   isTied: 1
-  tiedWorldType: 0
+  tiedWorldType: 1
   worldSwitchReceiverType: 0

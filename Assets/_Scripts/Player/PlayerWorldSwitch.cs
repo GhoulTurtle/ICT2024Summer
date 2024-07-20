@@ -26,7 +26,7 @@ public class PlayerWorldSwitch : MonoBehaviour{
 
 	public void WorldSwitch(InputAction.CallbackContext context){
 		if(!isWorldSwitchUnlocked) return;
-		if(context.phase != InputActionPhase.Performed) return;
+		if(context.phase != InputActionPhase.Performed || currentWorldSwitchCooldown != null) return;
 
 		if(WorldSwitchManager.Instance != null){
 			WorldSwitchManager.Instance.SwitchWorldType();

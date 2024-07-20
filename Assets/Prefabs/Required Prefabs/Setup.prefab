@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWorldSwitchUnlocked: 1
-  worldSwitchCooldown: 0.5
+  worldSwitchCooldown: 0.25
 --- !u!1 &3804574801007783876
 GameObject:
   m_ObjectHideFlags: 0
