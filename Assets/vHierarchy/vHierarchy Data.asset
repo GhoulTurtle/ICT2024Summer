@@ -15,6 +15,7 @@ MonoBehaviour:
   sceneDatas_byGuid:
     keys:
     - 
+    - 2a723cca402688148bb54142b8eb1285
     values:
     - goDatas_byGlobalId:
         keys:
@@ -25,3 +26,39 @@ MonoBehaviour:
           iconNameOrGuid: 
         - colorIndex: 3
           iconNameOrGuid: 
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-1609576471-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-1160629882-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-723857813-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-1178645795-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-1387423463-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-718193926-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-1855959564-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-988784466-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-370474600-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-2082059620-0
+        - globalObjectIdString: GlobalObjectId_V1-2-2a723cca402688148bb54142b8eb1285-1940726844-0
+        values:
+        - colorIndex: 8
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 4
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 2
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 3
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 3
+          iconNameOrGuid: Light Icon
+        - colorIndex: 1
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 1
+          iconNameOrGuid: 
+        - colorIndex: 1
+          iconNameOrGuid: 
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 1
+          iconNameOrGuid: Folder Icon
