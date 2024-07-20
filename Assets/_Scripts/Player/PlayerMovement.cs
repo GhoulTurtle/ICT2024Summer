@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour{
 	[Header("Base Movement Variables")]
 	[SerializeField] private float movementSpeed;
 	[SerializeField] private float slideDurationTimeInSeconds;
-	[SerializeField] private float slideDistance;
+	[SerializeField] private float slideSpeed;
 	[SerializeField] private float slideHeight = 0.5f;
 	[SerializeField] private float slideCooldown = 0.5f;
 
@@ -41,7 +41,6 @@ public class PlayerMovement : MonoBehaviour{
 	private float xInput;
 	private float yInput;
 	private float verticalVelocity;
-	private float currentSpeed;
 	private float standingHeight;
 
 	private bool grounded;
@@ -113,8 +112,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     private void AddSlidingForce(){
-		Vector3 slidingDir  = playerOrientation.forward;
-		characterController.Move(slideDistance * Time.deltaTime * slidingDir.normalized + Time.deltaTime * verticalVelocity * Vector3.up);
+		StartCoroutine(SlideMovementCoroutine());
     }
 
     private void Move(){
@@ -131,8 +129,8 @@ public class PlayerMovement : MonoBehaviour{
 		previousMoveInput = playerMoveInput;
     }
 
-	public bool CanStand(){
-		return !Physics.Raycast(transform.position, Vector3.up, standingHeight);
+	public bool IsMoving(){
+		return moveDirection != Vector3.zero;
 	}
 
 	private IEnumerator ValidStandingCheckCoroutine(){
@@ -162,17 +160,24 @@ public class PlayerMovement : MonoBehaviour{
 			yield return null;
 		}
 
-		if(!CanStand()){
-			currentStandingCheck = ValidStandingCheckCoroutine();
-			StartCoroutine(currentStandingCheck);
-			yield break;
-		}
-
-		currentSlideAction = SlideLerpAnimationCoroutine(standingHeight);
-		StartCoroutine(currentSlideAction);
+		SlideEnded();
 	}
 
-	private IEnumerator SlideCooldownCoroutine(){
+	private IEnumerator SlideMovementCoroutine(){
+		float elapsedTime = 0f;
+    	while (elapsedTime < slideDurationTimeInSeconds){
+			Vector3 slideDirection = cameraTransform.forward;
+        	characterController.Move(slideSpeed * Time.deltaTime * slideDirection);
+        	elapsedTime += Time.deltaTime;
+        	yield return null;
+    	}
+	}
+
+    private void SlideEnded(){
+		currentSlideAction = null;
+    }
+
+    private IEnumerator SlideCooldownCoroutine(){
 		yield return new WaitForSeconds(slideCooldown);
 		currentSlideCooldown = null;
 	}
