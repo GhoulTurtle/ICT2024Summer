@@ -31,6 +31,9 @@ public class PlayerMovement : MonoBehaviour{
 	[SerializeField] private float gravity = -9.31f;
 	[SerializeField] private float groundedRadius = 0.5f;
 
+	[Header("Ability Variables")]
+	[SerializeField] private bool isSlideUnlocked = false;
+
 	[Header("Debug Variables")]
 	[SerializeField] private bool drawGizmos = false;
 
@@ -66,6 +69,8 @@ public class PlayerMovement : MonoBehaviour{
 	private IEnumerator currentSlideCooldown;
 	private IEnumerator currentSlideAction;
 
+	public Action OnSlideUnlocked;
+
 	private void Start() {
 		standingHeight = characterController.height;
 		initialCameraPosition = cameraTransform.localPosition;
@@ -91,6 +96,8 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void SlideInput(InputAction.CallbackContext context){
+		if(!isSlideUnlocked) return;
+
 		if(currentSlideCooldown != null || context.phase != InputActionPhase.Performed || !grounded) return;
 		if(currentSlideAction == null){
 			StartSliding();
@@ -158,6 +165,13 @@ public class PlayerMovement : MonoBehaviour{
 		previousMoveInput = playerMoveInput;
     }
 
+	public void UnlockSlideAbility(){
+		if(isSlideUnlocked) return;
+
+		isSlideUnlocked = true;
+		OnSlideUnlocked?.Invoke();
+	}
+
 	public bool IsMoving(){
 		return moveDirection != Vector3.zero;
 	}
@@ -194,10 +208,8 @@ public class PlayerMovement : MonoBehaviour{
 			yield return null;
 		}
 
-    	verticalVelocity = (targetYPosition - transform.position.y) / Time.deltaTime;
 		characterController.height = desiredHeight;
 		if(desiredHeight == standingHeight){
-			verticalVelocity = (targetYPosition - transform.position.y) * 1.1f / Time.deltaTime;
 			cameraTransform.localPosition = initialCameraPosition;
 			groundCheckTransform.localPosition = initialGroundCheckPosition;
 		}
