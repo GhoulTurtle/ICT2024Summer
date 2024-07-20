@@ -82,7 +82,7 @@ Material:
     - _GlossyReflections: 1
     - _GradIntensity: 0
     - _GradYCap: 0
-    - _HighIntensity: 0.99
+    - _HighIntensity: 0.18
     - _LightScalar: 1
     - _LowIntensity: 1.9
     - _Metallic: 0
@@ -103,8 +103,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 0.4045708, g: 0.04071733, b: 0.5754717, a: 1}
-    - _HighColor: {r: 0.35154858, g: 0.92113495, b: 0.9433962, a: 1}
+    - _HighColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
     - _LowColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
-    - _OutlineColor: {r: 0, g: 0.95938826, b: 1, a: 1}
+    - _OutlineColor: {r: 0, g: 1, b: 0.14934087, a: 1}
     - _RimColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
