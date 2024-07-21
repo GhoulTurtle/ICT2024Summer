@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c28b2ffeb74d5164885aee83ff45f6e4, type: 3}
-  m_Name: TestDeathLoreData
+  m_Name: DeathLoreData_OtherWorld
   m_EditorClassIdentifier: 
   deathLoreSentences:
-  - Your mother
-  - Your mother is a very nice
-  - Your mother is a very nice lady. Her house is
-  - Your mother is a very nice lady. Her house is very lit and cool.
-  - Your mother is a very nice lady. Her house is very lit and cool. Anyway goodbye!
+  - A coin has two sides...
+  - A coin has two sides, same as our world...
+  - A coin has two sides, same as our world. A dark and a light...
+  - A coin has two sides, same as our world. A dark and a light...
+  - A coin has two sides, same as our world. A dark and a light, constantly fighting
+    for control trying to gain power over another.
