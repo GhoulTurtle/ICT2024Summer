@@ -5,6 +5,7 @@ public class WorldSwitchReceiver : MonoBehaviour{
 	[SerializeField] private WorldSwitchDataSO worldSwitchDataSO;
 	[SerializeField] private Collider recieverCollider;
 	[SerializeField] private MeshRenderer recieverMeshRenderer;
+	[SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
 	[SerializeField] private bool isTied = false;
 	[SerializeField] private WorldType tiedWorldType;
 	[SerializeField] private WorldSwitchReceiverType worldSwitchReceiverType;
@@ -48,8 +49,15 @@ public class WorldSwitchReceiver : MonoBehaviour{
                             break;
                         case WorldSwitchReceiverType.Sky: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeASkyBoxMat;
                             break;
-                        case WorldSwitchReceiverType.Statue: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAStatueMat;
-                            break;
+                        case WorldSwitchReceiverType.Statue:
+							if (recieverMeshRenderer != null) {
+                                recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAStatueMat;
+                            }
+							
+							if (skinnedMeshRenderer != null) {
+								skinnedMeshRenderer.material = worldSwitchDataSO.WorldTypeAStatueMat;
+							}
+							break;
                         case WorldSwitchReceiverType.Background: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeABackgroundMat;
                             break;
                     }
@@ -60,7 +68,14 @@ public class WorldSwitchReceiver : MonoBehaviour{
                             break;
                         case WorldSwitchReceiverType.Sky: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBSkyBoxMat;
                             break;
-                        case WorldSwitchReceiverType.Statue: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBStatueMat;
+                        case WorldSwitchReceiverType.Statue:
+							if (recieverMeshRenderer != null) { 
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBStatueMat;
+							}
+                            if (skinnedMeshRenderer != null)
+                            {
+                                skinnedMeshRenderer.material = worldSwitchDataSO.WorldTypeBStatueMat;
+                            }
                             break;
                         case WorldSwitchReceiverType.Background: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBBackgroundMat;
                             break;

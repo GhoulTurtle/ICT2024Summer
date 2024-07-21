@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19343284b558d345b2d808c6adbfb5b, type: 3}
   m_Name: DefaultWorldSwitchData
   m_EditorClassIdentifier: 
-  WorldTypeABackgroundMat: {fileID: 2100000, guid: 464aa8dc83108f249a5b3cd75f0f5d85, type: 2}
-  WorldTypeAStatueMat: {fileID: 2100000, guid: 464aa8dc83108f249a5b3cd75f0f5d85, type: 2}
-  WorldTypeASkyBoxMat: {fileID: 2100000, guid: 464aa8dc83108f249a5b3cd75f0f5d85, type: 2}
-  WorldTypeAMat: {fileID: 2100000, guid: 464aa8dc83108f249a5b3cd75f0f5d85, type: 2}
-  WorldTypeBBackgroundMat: {fileID: 2100000, guid: aa2fec226364ea640a62d7dd8c7572ce, type: 2}
-  WorldTypeBStatueMat: {fileID: 2100000, guid: aa2fec226364ea640a62d7dd8c7572ce, type: 2}
-  WorldTypeBSkyBoxMat: {fileID: 2100000, guid: aa2fec226364ea640a62d7dd8c7572ce, type: 2}
-  WorldTypeBMat: {fileID: 2100000, guid: aa2fec226364ea640a62d7dd8c7572ce, type: 2}
+  WorldTypeABackgroundMat: {fileID: 2100000, guid: d61d803c774fb6b4eb3f2a7d099bd9fc, type: 2}
+  WorldTypeAStatueMat: {fileID: 2100000, guid: 5402ac33158f7324e9fb8f6681ecd34e, type: 2}
+  WorldTypeASkyBoxMat: {fileID: 2100000, guid: 655d20175f26a3446b76dd45da9c87fe, type: 2}
+  WorldTypeAMat: {fileID: 2100000, guid: 6b3c3a9dbb09ab643bedb86e963d2937, type: 2}
+  WorldTypeBBackgroundMat: {fileID: 2100000, guid: d13c34f9ecd6c8945b1bf38545800505, type: 2}
+  WorldTypeBStatueMat: {fileID: 2100000, guid: 2d004efd515f5c24e835b86638f9ad99, type: 2}
+  WorldTypeBSkyBoxMat: {fileID: 2100000, guid: 65fcad8e0e6901440b768d87f18b70ea, type: 2}
+  WorldTypeBMat: {fileID: 2100000, guid: de66d96be811f7d418247900b5865a47, type: 2}
