@@ -27,6 +27,11 @@ public class TimerPlatform : MonoBehaviour{
 		StopAllCoroutines();
 	}
 
+	public void SwitchPlatformState(){
+		isActive = !isActive;
+		UpdatePlatformState();
+	}
+
 	public void StartTimer(){
 		currentPlatformTimer = PlatformTimerCoroutine();
 		StartCoroutine(currentPlatformTimer);
