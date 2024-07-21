@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf01c958d042a7f41a3e39a4e39ad455, type: 3}
+  m_Name: DefaultPlayerDeathData
+  m_EditorClassIdentifier: 
+  playerDeathEntries:
+  - deathBuff: 0
+    spawnedInLevelParentIndex: 0
+    maxHealthAmount: 15
+  - deathBuff: 1
+    spawnedInLevelParentIndex: 0
+    maxHealthAmount: 0
+  - deathBuff: 0
+    spawnedInLevelParentIndex: 0
+    maxHealthAmount: 20
+  - deathBuff: 1
+    spawnedInLevelParentIndex: 1
+    maxHealthAmount: 0
+  - deathBuff: 0
+    spawnedInLevelParentIndex: 0
+    maxHealthAmount: 25

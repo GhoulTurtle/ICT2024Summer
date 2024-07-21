@@ -5,6 +5,7 @@ public class PlayerPickup : MonoBehaviour{
 	[Header("Required References")]
 	[SerializeField] private float pickupDestroyTimeInSeconds;
 	[SerializeField] private PlayerPickupType pickupType;
+	[SerializeField] private float healthAmount;
 
 	[Header("Pickup Events")]
 	[SerializeField] private UnityEvent OnPickup;
@@ -15,7 +16,10 @@ public class PlayerPickup : MonoBehaviour{
 
 		OnPickup?.Invoke();
         switch (pickupType){
-            case PlayerPickupType.Health: //Heal the player
+            case PlayerPickupType.Health: 
+				if(other.TryGetComponent(out PlayerHealth playerHealth)){
+					playerHealth.HealHealth(healthAmount);
+				}
                 break;
             case PlayerPickupType.Slide_Ability:         
 				if (other.TryGetComponent(out PlayerMovement playerMovement)){
