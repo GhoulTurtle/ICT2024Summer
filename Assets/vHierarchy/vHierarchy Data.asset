@@ -16,6 +16,7 @@ MonoBehaviour:
     keys:
     - 
     - 2a723cca402688148bb54142b8eb1285
+    - d682cec053dd6334eb579beef195a77a
     values:
     - goDatas_byGlobalId:
         keys:
@@ -68,3 +69,33 @@ MonoBehaviour:
           iconNameOrGuid: 
         - colorIndex: 1
           iconNameOrGuid: 
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-2091144029-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1160629882-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-723857813-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1276002059-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-830324679-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1178645795-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1387423463-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1855959564-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1609576471-0
+        values:
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 5
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 3
+          iconNameOrGuid: Light Icon
+        - colorIndex: 1
+          iconNameOrGuid: Folder Icon
+        - colorIndex: 9
+          iconNameOrGuid: Folder Icon
