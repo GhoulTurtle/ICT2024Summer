@@ -623,6 +623,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Setup
       objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: jumpCooldown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: slideDurationTimeInSeconds
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119826213055038717, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: bobbingAmplitude
+      value: 0.0015
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119826213055038717, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: bobbingFrequency
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 4486562020692288098, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
