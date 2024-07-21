@@ -7,7 +7,7 @@ public class PlayerDeathDataSO : ScriptableObject{
 	public List<PlayerDeathEntry> playerDeathEntries;
 
 	public bool IsDeathIndexValid(int index){
-		if(index < 0 && playerDeathEntries.Count <= index) return false;
+		if(playerDeathEntries.Count == index) return false;
 		return true;
 	}
 
