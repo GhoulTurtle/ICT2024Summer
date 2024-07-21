@@ -26,11 +26,8 @@ public class PlayerHealth : MonoBehaviour{
 		if(currentHealth <= 0){
 			OnDeathAction?.Invoke();
 			OnDeath?.Invoke();
-			Debug.Log("IM DEAD!");
 			return;
 		}
-
-		Debug.Log("I TOOK DAMAGE");
 
 		OnDamagedAction?.Invoke(damage);
 		OnDamaged?.Invoke();
@@ -40,6 +37,11 @@ public class PlayerHealth : MonoBehaviour{
 		currentHealth += amount;
 		if(currentHealth > maxHealth) currentHealth = maxHealth;
 		OnHealed?.Invoke();
+	}
+
+	public void TriggerInstantDeath(){
+		OnDeathAction?.Invoke();
+		OnDeath?.Invoke();
 	}
 
 	public void ResetHealth(){

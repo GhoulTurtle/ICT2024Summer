@@ -8,6 +8,11 @@ public class GameManager : MonoBehaviour{
 	[SerializeField] private List<GameObject> spawnedInLevelParents; 
 	[SerializeField] private Transform levelSpawnPoint;
 	[SerializeField] private PlayerHealth playerHealth;
+
+	private PlayerInput playerInput;
+
+    private const string INGAME = "Player";
+    private const string UI = "UI"; 
 	
 	public static GameManager Instance;
 
@@ -34,7 +39,9 @@ public class GameManager : MonoBehaviour{
 			Instance = this;
 		}
 
-		playerHealth.OnDeathAction += PlayerDeathTriggered;
+		if(playerHealth != null){
+			playerHealth.OnDeathAction += PlayerDeathTriggered;
+		}
 	}
 
 	private void Start() {
@@ -52,6 +59,8 @@ public class GameManager : MonoBehaviour{
 	}
 
 	private void PlayerDeathTriggered(){
+		Time.timeScale = 0;
+
 		if(!playerDeathData.IsDeathIndexValid(currentPlayerDeathCounter)){
 			TriggerGameOver();
 			return;
@@ -63,8 +72,11 @@ public class GameManager : MonoBehaviour{
             switch (currentDeathEntry.deathBuff){
                 case DeathBuff.Health_Increase: playerHealth.SetMaxHealth(currentDeathEntry.maxHealthAmount);
                     break;
-                case DeathBuff.Platforms_Added: spawnedInLevelParents[currentDeathEntry.spawnedInLevelParentIndex].SetActive(true);
-                    break;
+                case DeathBuff.Platforms_Added: 
+					if(spawnedInLevelParents.Count > currentDeathEntry.spawnedInLevelParentIndex){
+						spawnedInLevelParents[currentDeathEntry.spawnedInLevelParentIndex].SetActive(true);
+					}
+				    break;
             }
         }
 
@@ -92,5 +104,6 @@ public class GameManager : MonoBehaviour{
 
     private void TriggerGameOver(){
         OnGameOver?.Invoke();
+		Time.timeScale = 1;
     }
 }
