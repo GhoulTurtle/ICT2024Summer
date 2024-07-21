@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 1850541924174549503}
   - component: {fileID: 4119826213055038717}
   - component: {fileID: 3437575610552478757}
+  - component: {fileID: 2679263477088674479}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -498,6 +499,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWorldSwitchUnlocked: 1
   worldSwitchCooldown: 0.25
+--- !u!114 &2679263477088674479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2651386995976691699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 374949857c5a9e644bce44a1bd146392, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxHealthIncreased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3804574801007783876
 GameObject:
   m_ObjectHideFlags: 0
