@@ -45,7 +45,13 @@ public class WorldSwitchReceiver : MonoBehaviour{
             switch (worldType){
                 case WorldType.TypeA:
                     switch (worldSwitchReceiverType){
-                        case WorldSwitchReceiverType.Platform: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAMat;
+                        case WorldSwitchReceiverType.Platform:
+							if (isTied && tiedWorldType != WorldType.TypeA){
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAFadeMat;
+							}
+							else { 
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAMat;
+							}
                             break;
                         case WorldSwitchReceiverType.Sky: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeASkyBoxMat;
                             break;
@@ -64,13 +70,20 @@ public class WorldSwitchReceiver : MonoBehaviour{
                     break;
                 case WorldType.TypeB: 
 					switch (worldSwitchReceiverType){
-                        case WorldSwitchReceiverType.Platform: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBMat;
+                        case WorldSwitchReceiverType.Platform:
+							if (isTied && tiedWorldType != WorldType.TypeB)
+							{
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBFadeMat;
+							}
+							else { 
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBMat;
+							}
                             break;
                         case WorldSwitchReceiverType.Sky: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBSkyBoxMat;
                             break;
                         case WorldSwitchReceiverType.Statue:
 							if (recieverMeshRenderer != null) { 
-								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBStatueMat;
+								 recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBStatueMat;
 							}
                             if (skinnedMeshRenderer != null)
                             {
@@ -90,16 +103,13 @@ public class WorldSwitchReceiver : MonoBehaviour{
             case WorldSwitchReceiverType.Platform:
 						if(worldType == tiedWorldType){
 							recieverCollider.enabled = true;
-							recieverMeshRenderer.enabled = true;
 						}
 						else{
 							recieverCollider.enabled = false;
-							recieverMeshRenderer.enabled = false;
 						}
                 break;
-            case WorldSwitchReceiverType.Sky or WorldSwitchReceiverType.Statue or WorldSwitchReceiverType.Background:
-						UpdateMaterialOnWorldType(worldType);
-                break;
         }
+
+        UpdateMaterialOnWorldType(worldType);
     }
 }
