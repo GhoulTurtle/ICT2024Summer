@@ -896,6 +896,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDeathData: {fileID: 11400000, guid: 9489e1fa35fa9e74eb796bba564a4170, type: 2}
+  deathLoreDataList:
+  - {fileID: 11400000, guid: c59aff2cf15315b48ad142e467116ef3, type: 2}
   spawnedInLevelParents: []
   levelSpawnPoint: {fileID: 1003067548600084986}
   playerHealth: {fileID: 2679263477088674479}
@@ -1442,7 +1444,19 @@ MonoBehaviour:
     m_ActionId: 24763f50-e36f-4d8c-b16f-2d16f84b8c1a
     m_ActionName: Player/Pause[/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4964178411001980603}
+        m_TargetAssemblyTypeName: LifeLostUI, Assembly-CSharp
+        m_MethodName: OnContinueInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: cde34b01-8d8d-464f-845a-746066783e61
     m_ActionName: Player/Continue[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
@@ -3368,6 +3382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 0}
+  lifeLostUI: {fileID: 0}
 --- !u!1 &7509030178571723196
 GameObject:
   m_ObjectHideFlags: 0
@@ -3542,6 +3557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 7446679279952466867}
+  lifeLostUI: {fileID: 4964178411001980603}
 --- !u!114 &7458298586757610858
 MonoBehaviour:
   m_ObjectHideFlags: 0

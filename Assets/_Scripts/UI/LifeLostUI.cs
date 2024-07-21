@@ -31,7 +31,9 @@ public class LifeLostUI : MonoBehaviour{
     private void ShowLostLifeUI(object sender, GameManager.ValidDeathPlayerDeathEntryEventArgs e){
 		lostLifeUI.SetActive(true);
 
-		livesRemainingText.text = e.livesRemaining.ToString();
+		deathLoreText.text = e.currentDeathLore;
+
+		livesRemainingText.text = "Chances left: " + e.livesRemaining.ToString();
         switch (e.deathEntry.deathBuff){
             case DeathBuff.Health_Increase: deathBuffGainedText.text = "Max HP Increased.";
                 break;
@@ -40,10 +42,6 @@ public class LifeLostUI : MonoBehaviour{
         }
 
 		//Death Lore
-    }
-
-    private void ShowGameOverUI(){
-		gameOverUI.SetActive(true);
     }
 
 	public void OnContinueInput(InputAction.CallbackContext context){
@@ -60,4 +58,14 @@ public class LifeLostUI : MonoBehaviour{
 			Cursor.lockState = CursorLockMode.None;		
 		}
 	}
+
+	public bool IsDeathUIActive(){
+		return lostLifeUI.activeInHierarchy || gameOverUI.activeInHierarchy;
+	}
+
+    private void ShowGameOverUI(){
+		gameOverUI.SetActive(true);
+    }
+
+
 }

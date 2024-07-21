@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour{
 	[Header("Required References")]
 	[SerializeField] private PlayerDeathDataSO playerDeathData;
+	[SerializeField] private List<DeathLoreDataSO> deathLoreDataList = new();
 	[SerializeField] private List<GameObject> spawnedInLevelParents; 
 	[SerializeField] private Transform levelSpawnPoint;
 	[SerializeField] private PlayerHealth playerHealth;
 
-	private PlayerInput playerInput;
-
-    private const string INGAME = "Player";
-    private const string UI = "UI"; 
+	private DeathLoreDataSO selectedDeathLore;
 	
 	public static GameManager Instance;
 
@@ -23,10 +22,12 @@ public class GameManager : MonoBehaviour{
 	public class ValidDeathPlayerDeathEntryEventArgs : EventArgs{
 		public PlayerDeathEntry deathEntry;
 		public int livesRemaining;
+		public string currentDeathLore;
 
-		public ValidDeathPlayerDeathEntryEventArgs(PlayerDeathEntry _deathEntry, int _livesRemaining){
+		public ValidDeathPlayerDeathEntryEventArgs(PlayerDeathEntry _deathEntry, int _livesRemaining, string _currentDeathLore){
 			deathEntry = _deathEntry;
 			livesRemaining = _livesRemaining;
+			currentDeathLore = _currentDeathLore;
 		}
 	}
 
@@ -41,6 +42,11 @@ public class GameManager : MonoBehaviour{
 
 		if(playerHealth != null){
 			playerHealth.OnDeathAction += PlayerDeathTriggered;
+		}
+
+		if(deathLoreDataList != null){
+			int randomIndex = Random.Range(0, deathLoreDataList.Count);
+			selectedDeathLore = deathLoreDataList[randomIndex];
 		}
 	}
 
@@ -81,10 +87,11 @@ public class GameManager : MonoBehaviour{
         }
 
 		int playerDeathEntryCount = playerDeathData.GetPlayerDeathEntryCount();
-		int adjustedPlayerDeathCount = playerDeathEntryCount + 1;
+		int adjustedPlayerDeathCount = currentPlayerDeathCounter + 1;
+		string deathLorePhrase = selectedDeathLore.deathLoreSentences[currentPlayerDeathCounter];
 
 		//Update game UI event
-		OnValidPlayerDeathEntry?.Invoke(this, new ValidDeathPlayerDeathEntryEventArgs(currentDeathEntry, playerDeathEntryCount - adjustedPlayerDeathCount));
+		OnValidPlayerDeathEntry?.Invoke(this, new ValidDeathPlayerDeathEntryEventArgs(currentDeathEntry, playerDeathEntryCount - adjustedPlayerDeathCount, deathLorePhrase));
 
 		//Reset the player
 		playerHealth.ResetHealth();

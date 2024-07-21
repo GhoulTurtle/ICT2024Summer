@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: e232b2efc99db7346a8aceb958a8bed4
   - enabled: 1
-    path: Assets/Scenes/CalebRichardsonDevScene.unity
-    guid: 18b43ce544bedbd42b5b405dd36770de
+    path: Assets/Scenes/Level Scene.unity
+    guid: d682cec053dd6334eb579beef195a77a
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 8a3c1c12068de3e4682880e6c07229bc
