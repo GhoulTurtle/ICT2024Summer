@@ -5,7 +5,7 @@ using System;
 
 public class PlayerFirstCamLook : MonoBehaviour{
 	[Header("Cam Variables")]
-	[SerializeField] private float camSens;
+	[SerializeField, Range(0.1f, 100)] private float camSens;
 	[SerializeField] private bool lockCursor;
 
 	[Header("Tilt Variables")]
@@ -24,6 +24,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	[SerializeField] private Transform characterOrientation;
 
 	private const float YClamp = 80f;
+	private const string MOUSE_SENS = "MouseSens";
 
 	private float lastSinValue;
 	private bool isMovingUpwards = true;
@@ -47,11 +48,25 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	// 	}
 	// }
 
-	private void Awake() {
-		startPos = cameraTransform.localPosition;
-		currentAmplitude = bobbingAmplitude;
-		currentFrequency = bobbingFrequency;
-	}
+	private void Awake()
+    {
+        startPos = cameraTransform.localPosition;
+        currentAmplitude = bobbingAmplitude;
+        currentFrequency = bobbingFrequency;
+
+        UpdateCameraSens();
+    }
+
+    public void UpdateCameraSens(){
+        if (PlayerPrefs.HasKey(MOUSE_SENS))
+        {
+            camSens = PlayerPrefs.GetFloat(MOUSE_SENS);
+        }
+        else
+        {
+            camSens = 10f;
+        }
+    }
 
     private void Start() {
 		if(TryGetComponent(out playerMovement)){
