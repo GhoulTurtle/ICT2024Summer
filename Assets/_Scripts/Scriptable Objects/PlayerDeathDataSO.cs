@@ -5,5 +5,13 @@ using UnityEngine;
 public class PlayerDeathDataSO : ScriptableObject{
 	[Header("Required References")]
 	public List<PlayerDeathEntry> playerDeathEntries;
-	
+
+	public bool IsDeathIndexValid(int index){
+		if(index < 0 && playerDeathEntries.Count <= index) return false;
+		return true;
+	}
+
+	public int GetPlayerDeathEntryCount(){
+		return playerDeathEntries.Count;
+	}
 }

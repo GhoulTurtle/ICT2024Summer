@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour{
 
 	private float currentHealth;
 
-	private void Awake(){
+	private void Start(){
 		currentHealth = maxHealth;
 	}
 
@@ -42,11 +42,12 @@ public class PlayerHealth : MonoBehaviour{
 		OnHealed?.Invoke();
 	}
 
-	public void IncreaseMaxHealth(float amount){
-		if(IsHealthFull()){
-			currentHealth += amount;
-		}
-		maxHealth += amount;
+	public void ResetHealth(){
+		currentHealth = maxHealth;
+	}
+
+	public void SetMaxHealth(float amount){
+		maxHealth = amount;
 		OnMaxHealthIncreased?.Invoke();
 	}
 
