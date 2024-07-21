@@ -67,6 +67,7 @@ GameObject:
   - component: {fileID: 6443705457222580438}
   - component: {fileID: 3945923102640720740}
   - component: {fileID: 8621941972795106657}
+  - component: {fileID: 2119484070002598930}
   m_Layer: 0
   m_Name: Out of Bounds (2)
   m_TagString: Untagged
@@ -2091,7 +2092,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7809
+  m_VersionIndex: 7812
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2117,3 +2118,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2119484070002598930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9101963031314287096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91028b51aaae87a4a9453d292123cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSwitchDataSO: {fileID: 11400000, guid: 677fc38d729a1584d814f54870cf2713, type: 2}
+  recieverCollider: {fileID: 0}
+  recieverMeshRenderer: {fileID: 6443705457222580438}
+  skinnedMeshRenderer: {fileID: 0}
+  isTied: 0
+  tiedWorldType: 0
+  worldSwitchReceiverType: 3

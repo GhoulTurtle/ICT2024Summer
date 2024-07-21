@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 851787564511744436}
   - component: {fileID: 1095858483662690126}
   - component: {fileID: 25504591364370692}
+  - component: {fileID: 1561697883159511064}
   m_Layer: 0
   m_Name: Out of Bounds
   m_TagString: Untagged
@@ -1278,11 +1279,30 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5502
+  m_VersionIndex: 5505
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &1561697883159511064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678603166107816325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91028b51aaae87a4a9453d292123cf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSwitchDataSO: {fileID: 11400000, guid: 677fc38d729a1584d814f54870cf2713, type: 2}
+  recieverCollider: {fileID: 0}
+  recieverMeshRenderer: {fileID: 851787564511744436}
+  skinnedMeshRenderer: {fileID: 0}
+  isTied: 0
+  tiedWorldType: 0
+  worldSwitchReceiverType: 3
 --- !u!1 &3879779301673637864
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,7 +1312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6928668008326764077}
-  - component: {fileID: 199367529993799889}
+  - component: {fileID: 1034246673672523287}
   m_Layer: 0
   m_Name: Box (1)
   m_TagString: Untagged
@@ -1310,13 +1330,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -414, y: 20.5, z: 528.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.73485, y: 0.73485, z: 0.73485}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6050214059622168206}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &199367529993799889
+--- !u!95 &1034246673672523287
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -1326,7 +1346,7 @@ Animator:
   m_GameObject: {fileID: 3879779301673637864}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 663a144ea4bab3148a51b0d386afd7b5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5690d7e69349bfe4a919c9caf3785367, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
