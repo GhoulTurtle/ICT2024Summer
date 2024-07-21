@@ -5,13 +5,15 @@ using UnityEngine.SceneManagement;
 public class PauseMenuUI : MonoBehaviour{
     [Header("Required References")]
     [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private LifeLostUI lifeLostUI;
 
     private bool isActive = false;
 
     private const string MAIN_MENU = "Main Menu";
 
     public void PauseInput(InputAction.CallbackContext context){
-        if(context.phase != InputActionPhase.Performed) return;
+        if(context.phase != InputActionPhase.Performed || lifeLostUI.IsDeathUIActive()) return;
+
 
         SetPauseMenuState(!isActive);
     }
