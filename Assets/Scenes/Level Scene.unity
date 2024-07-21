@@ -68259,6 +68259,72 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6443705457222580438, guid: 7cbe523c8c108344eb27bbd2ab6f71a7, type: 3}
   m_PrefabInstance: {fileID: 1492793699}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1575498114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1575498115}
+  - component: {fileID: 1575498117}
+  - component: {fileID: 1575498116}
+  m_Layer: 6
+  m_Name: EndTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1575498115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575498114}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.50000006, y: -0.49999866, z: -0.5000029, w: -0.49999845}
+  m_LocalPosition: {x: -1.03, y: 76.41, z: 192.85}
+  m_LocalScale: {x: 12.684521, y: 1, z: 20.01104}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1940726845}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -270}
+--- !u!114 &1575498116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575498114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb8ba6b132de60478006d2f06690d03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1575498117
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575498114}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1581922056
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76114,6 +76180,7 @@ Transform:
   - {fileID: 6492154}
   - {fileID: 489689323}
   - {fileID: 626120890}
+  - {fileID: 1575498115}
   - {fileID: 781808554}
   - {fileID: 551405818}
   - {fileID: 685360045}

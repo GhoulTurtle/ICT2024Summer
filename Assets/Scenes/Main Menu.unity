@@ -2774,7 +2774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Programming/Level Design: Caleb Richardson'
+  m_text: 'Programming/UI: Caleb Richardson'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d86e29693372f748ba9c2e79dc480b7, type: 2}
   m_sharedMaterial: {fileID: 8693789489418778028, guid: 7d86e29693372f748ba9c2e79dc480b7, type: 2}
