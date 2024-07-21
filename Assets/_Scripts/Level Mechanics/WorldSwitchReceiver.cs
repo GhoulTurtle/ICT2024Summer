@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WorldSwitchReceiver : MonoBehaviour{
 	[Header("Required References")]
@@ -13,7 +14,10 @@ public class WorldSwitchReceiver : MonoBehaviour{
 	private WorldSwitchManager worldSwitchManager;
 	private WorldType currentWorldType;
 
-	private void Start() {
+	public UnityEvent WorldAEvent;
+    public UnityEvent WorldBEvent;
+
+    private void Start() {
 		if(WorldSwitchManager.Instance != null){
 			worldSwitchManager = WorldSwitchManager.Instance;
 			SetupWorldSwitchReciever();
@@ -53,7 +57,8 @@ public class WorldSwitchReceiver : MonoBehaviour{
 								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAMat;
 							}
                             break;
-                        case WorldSwitchReceiverType.Sky: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeASkyBoxMat;
+                        case WorldSwitchReceiverType.Sky:
+                            RenderSettings.skybox = worldSwitchDataSO.WorldTypeASkyBoxMat;
                             break;
                         case WorldSwitchReceiverType.Statue:
 							if (recieverMeshRenderer != null) {
@@ -67,6 +72,8 @@ public class WorldSwitchReceiver : MonoBehaviour{
                         case WorldSwitchReceiverType.Background: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeABackgroundMat;
                             break;
                     }
+
+                    WorldAEvent?.Invoke();
                     break;
                 case WorldType.TypeB: 
 					switch (worldSwitchReceiverType){
@@ -79,7 +86,8 @@ public class WorldSwitchReceiver : MonoBehaviour{
 								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBMat;
 							}
                             break;
-                        case WorldSwitchReceiverType.Sky: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBSkyBoxMat;
+                        case WorldSwitchReceiverType.Sky: 
+							RenderSettings.skybox = worldSwitchDataSO.WorldTypeBSkyBoxMat;
                             break;
                         case WorldSwitchReceiverType.Statue:
 							if (recieverMeshRenderer != null) { 
@@ -93,6 +101,8 @@ public class WorldSwitchReceiver : MonoBehaviour{
                         case WorldSwitchReceiverType.Background: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBBackgroundMat;
                             break;
                     }
+
+					WorldBEvent?.Invoke();
                     break;
             }
         }
