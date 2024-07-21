@@ -8,6 +8,8 @@ public class EndTrigger : MonoBehaviour{
 	private void OnTriggerEnter(Collider other) {
 		if(!other.CompareTag(PLAYER)) return;
 
+		Cursor.lockState = CursorLockMode.None;
+		Time.timeScale = 1f;
 		SceneManager.LoadScene(CREDITS);
 	}
 }
