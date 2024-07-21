@@ -198,7 +198,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1003067548600084986}
   m_Father: {fileID: 4486562020692288098}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &554380859108920820
@@ -215,6 +216,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDeathData: {fileID: 11400000, guid: 9489e1fa35fa9e74eb796bba564a4170, type: 2}
   spawnedInLevelParents: []
+  levelSpawnPoint: {fileID: 1003067548600084986}
+  playerHealth: {fileID: 2679263477088674479}
 --- !u!1 &2268740175548237515
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +278,7 @@ GameObject:
   - component: {fileID: 4119826213055038717}
   - component: {fileID: 3437575610552478757}
   - component: {fileID: 2679263477088674479}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -322,7 +325,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.4
-  m_SlopeLimit: 40
+  m_SlopeLimit: 90
   m_StepOffset: 0.05
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0.001
@@ -507,7 +510,7 @@ MonoBehaviour:
   slideHeight: 0.5
   slideCooldown: 0.5
   gravity: -15
-  groundedRadius: 0.3
+  groundedRadius: 0.38
   isSlideUnlocked: 1
   drawGizmos: 1
 --- !u!114 &4119826213055038717
@@ -709,7 +712,7 @@ Transform:
   m_GameObject: {fileID: 5945403180954968300}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.71, z: 0}
+  m_LocalPosition: {x: 0, y: -0.696, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -842,3 +845,34 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &7324570446410702864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1003067548600084986}
+  m_Layer: 0
+  m_Name: WorldSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1003067548600084986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7324570446410702864}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7721979780491256118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
