@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a14a7d742b63264499d71a99a56438d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisonDetectionRadius: 0.55
-  maxProjectileLiveTime: 30
+  maxProjectileLiveTime: 3
   hitMultipleTimes: 0
   dealDamageLayers:
     serializedVersion: 2

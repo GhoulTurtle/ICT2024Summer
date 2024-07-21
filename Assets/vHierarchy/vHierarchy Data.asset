@@ -80,6 +80,8 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1387423463-0
         - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1855959564-0
         - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1609576471-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1179753971-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d682cec053dd6334eb579beef195a77a-1600671296-0
         values:
         - colorIndex: 9
           iconNameOrGuid: Folder Icon
@@ -99,3 +101,7 @@ MonoBehaviour:
           iconNameOrGuid: Folder Icon
         - colorIndex: 9
           iconNameOrGuid: Folder Icon
+        - colorIndex: 6
+          iconNameOrGuid: 
+        - colorIndex: 6
+          iconNameOrGuid: 

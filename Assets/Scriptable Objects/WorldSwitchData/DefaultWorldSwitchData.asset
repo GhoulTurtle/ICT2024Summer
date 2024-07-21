@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: DefaultWorldSwitchData
   m_EditorClassIdentifier: 
   WorldTypeABackgroundMat: {fileID: 2100000, guid: d61d803c774fb6b4eb3f2a7d099bd9fc, type: 2}
+  WorldTypeAFadeMat: {fileID: 2100000, guid: 3081b62d15fb4ff4aba47fb82b4d60e7, type: 2}
   WorldTypeAStatueMat: {fileID: 2100000, guid: 5402ac33158f7324e9fb8f6681ecd34e, type: 2}
   WorldTypeASkyBoxMat: {fileID: 2100000, guid: 655d20175f26a3446b76dd45da9c87fe, type: 2}
   WorldTypeAMat: {fileID: 2100000, guid: 6b3c3a9dbb09ab643bedb86e963d2937, type: 2}
   WorldTypeBBackgroundMat: {fileID: 2100000, guid: d13c34f9ecd6c8945b1bf38545800505, type: 2}
+  WorldTypeBFadeMat: {fileID: 2100000, guid: 8a1c1f2c92f0fa748be111fc273520d5, type: 2}
   WorldTypeBStatueMat: {fileID: 2100000, guid: 2d004efd515f5c24e835b86638f9ad99, type: 2}
   WorldTypeBSkyBoxMat: {fileID: 2100000, guid: 65fcad8e0e6901440b768d87f18b70ea, type: 2}
   WorldTypeBMat: {fileID: 2100000, guid: de66d96be811f7d418247900b5865a47, type: 2}

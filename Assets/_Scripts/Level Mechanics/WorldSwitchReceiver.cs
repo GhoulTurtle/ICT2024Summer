@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WorldSwitchReceiver : MonoBehaviour{
 	[Header("Required References")]
@@ -13,7 +14,10 @@ public class WorldSwitchReceiver : MonoBehaviour{
 	private WorldSwitchManager worldSwitchManager;
 	private WorldType currentWorldType;
 
-	private void Start() {
+	public UnityEvent WorldAEvent;
+    public UnityEvent WorldBEvent;
+
+    private void Start() {
 		if(WorldSwitchManager.Instance != null){
 			worldSwitchManager = WorldSwitchManager.Instance;
 			SetupWorldSwitchReciever();
@@ -45,9 +49,16 @@ public class WorldSwitchReceiver : MonoBehaviour{
             switch (worldType){
                 case WorldType.TypeA:
                     switch (worldSwitchReceiverType){
-                        case WorldSwitchReceiverType.Platform: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAMat;
+                        case WorldSwitchReceiverType.Platform:
+							if (isTied && tiedWorldType != WorldType.TypeA){
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAFadeMat;
+							}
+							else { 
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeAMat;
+							}
                             break;
-                        case WorldSwitchReceiverType.Sky: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeASkyBoxMat;
+                        case WorldSwitchReceiverType.Sky:
+                            RenderSettings.skybox = worldSwitchDataSO.WorldTypeASkyBoxMat;
                             break;
                         case WorldSwitchReceiverType.Statue:
 							if (recieverMeshRenderer != null) {
@@ -61,16 +72,26 @@ public class WorldSwitchReceiver : MonoBehaviour{
                         case WorldSwitchReceiverType.Background: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeABackgroundMat;
                             break;
                     }
+
+                    WorldAEvent?.Invoke();
                     break;
                 case WorldType.TypeB: 
 					switch (worldSwitchReceiverType){
-                        case WorldSwitchReceiverType.Platform: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBMat;
+                        case WorldSwitchReceiverType.Platform:
+							if (isTied && tiedWorldType != WorldType.TypeB)
+							{
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBFadeMat;
+							}
+							else { 
+								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBMat;
+							}
                             break;
-                        case WorldSwitchReceiverType.Sky: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBSkyBoxMat;
+                        case WorldSwitchReceiverType.Sky: 
+							RenderSettings.skybox = worldSwitchDataSO.WorldTypeBSkyBoxMat;
                             break;
                         case WorldSwitchReceiverType.Statue:
 							if (recieverMeshRenderer != null) { 
-								recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBStatueMat;
+								 recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBStatueMat;
 							}
                             if (skinnedMeshRenderer != null)
                             {
@@ -80,6 +101,8 @@ public class WorldSwitchReceiver : MonoBehaviour{
                         case WorldSwitchReceiverType.Background: recieverMeshRenderer.material = worldSwitchDataSO.WorldTypeBBackgroundMat;
                             break;
                     }
+
+					WorldBEvent?.Invoke();
                     break;
             }
         }
@@ -90,16 +113,13 @@ public class WorldSwitchReceiver : MonoBehaviour{
             case WorldSwitchReceiverType.Platform:
 						if(worldType == tiedWorldType){
 							recieverCollider.enabled = true;
-							recieverMeshRenderer.enabled = true;
 						}
 						else{
 							recieverCollider.enabled = false;
-							recieverMeshRenderer.enabled = false;
 						}
                 break;
-            case WorldSwitchReceiverType.Sky or WorldSwitchReceiverType.Statue or WorldSwitchReceiverType.Background:
-						UpdateMaterialOnWorldType(worldType);
-                break;
         }
+
+        UpdateMaterialOnWorldType(worldType);
     }
 }
