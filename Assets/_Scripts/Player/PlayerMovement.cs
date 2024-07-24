@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour{
 	[SerializeField] private float slideJumpHeight = 0.75f;
 	[SerializeField] private float slideJumpWindow = 0.5f;
 	[SerializeField] private float coyoteTimeWindow = 0.15f;
+	[SerializeField] private float jumpBufferWindow = 0.25f;
 	[SerializeField] private float jumpCooldown = 0.15f;
 
 	[Header("Sliding Variables")]
@@ -71,6 +72,7 @@ public class PlayerMovement : MonoBehaviour{
 
 	private IEnumerator currentJumpCooldown;
 	private IEnumerator currentCoyoteTimeWindow;
+	private IEnumerator currentJumpBufferWindow;
 	private IEnumerator currentSlideJumpWindow;
 	private IEnumerator currentSlideCooldown;
 	private IEnumerator currentSlideAction;
@@ -113,27 +115,40 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void JumpInput(InputAction.CallbackContext context){
-		if(context.phase != InputActionPhase.Performed || currentJumpCooldown != null || !grounded && currentCoyoteTimeWindow == null || isSliding) return;
+        if (context.phase != InputActionPhase.Performed || currentJumpCooldown != null || isSliding) return;
 
-		if(!grounded && currentCoyoteTimeWindow != null){
-			StopCoyoteTimeWindow();
-		}
+        if (!grounded && currentCoyoteTimeWindow == null){
+            StopJumpBufferWindow();
+			currentJumpBufferWindow = JumpBufferCoroutine();
+			StartCoroutine(currentJumpBufferWindow);
+			return;
+        }
 
-		float height = jumpHeight;
+        if (!grounded && currentCoyoteTimeWindow != null){
+            StopCoyoteTimeWindow();
+        }
 
-		if(currentSlideJumpWindow != null){
-			height = slideJumpHeight;
-			StopCoroutine(currentSlideJumpWindow);
-			currentSlideJumpWindow = null;
-		}
+		if(currentJumpBufferWindow != null) return;
 
-		verticalVelocity = Mathf.Sqrt(height * -2f * gravity);
+        Jump();
+    }
 
-		currentJumpCooldown = JumpCooldownCoroutine();
-		StartCoroutine(currentJumpCooldown);
-	}
+    private void Jump(){
+        float height = jumpHeight;
 
-	public void UnlockSlideAbility(){
+        if (currentSlideJumpWindow != null){
+            height = slideJumpHeight;
+            StopCoroutine(currentSlideJumpWindow);
+            currentSlideJumpWindow = null;
+        }
+
+        verticalVelocity = Mathf.Sqrt(height * -2f * gravity);
+
+        currentJumpCooldown = JumpCooldownCoroutine();
+        StartCoroutine(currentJumpCooldown);
+    }
+
+    public void UnlockSlideAbility(){
 		if(isSlideUnlocked) return;
 
 		isSlideUnlocked = true;
@@ -223,6 +238,13 @@ public class PlayerMovement : MonoBehaviour{
 		}
     }
 
+	private void StopJumpBufferWindow(){
+		if(currentJumpBufferWindow != null){
+			StopCoroutine(currentJumpBufferWindow);
+			currentJumpBufferWindow = null;
+		}
+	}
+
 	private void StopCoyoteTimeWindow(){
 		if(currentCoyoteTimeWindow != null){
 			StopCoroutine(currentCoyoteTimeWindow);
@@ -242,6 +264,22 @@ public class PlayerMovement : MonoBehaviour{
 
 		if(adjustedVelocity.y < 0) return adjustedVelocity;
 		return velocity;
+	}
+
+	private IEnumerator JumpBufferCoroutine(){
+		float currentCheckTime = 0;
+
+		while(currentCheckTime <= jumpBufferWindow){
+			if(grounded){
+				Jump();
+				StopJumpBufferWindow();
+				yield break;
+			}
+			currentCheckTime += Time.deltaTime;
+			yield return null;
+		}
+
+		StopJumpBufferWindow();
 	}
 
 	private IEnumerator ValidStandingCheckCoroutine(){
