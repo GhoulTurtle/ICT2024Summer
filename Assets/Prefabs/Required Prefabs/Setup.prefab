@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 70
     OrthographicSize: 5
-    NearClipPlane: 0.3
+    NearClipPlane: 0.01
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
@@ -914,7 +914,7 @@ Transform:
   m_GameObject: {fileID: 1852276254745281450}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1596,9 +1596,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   movementSpeed: 7.5
+  slopeRayStandingDetectDistance: 1.05
+  slopeRaySlidingDetectDistance: 0.5
   jumpHeight: 2
   slideJumpHeight: 2.5
   slideJumpWindow: 0.25
+  coyoteTimeWindow: 0.25
   jumpCooldown: 0
   slideShrinkTimeInSeconds: 0.4
   slideDurationTimeInSeconds: 0.55
@@ -3390,7 +3393,7 @@ Transform:
   m_GameObject: {fileID: 7247200298054853011}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3427,7 +3430,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 70
   orthographic: 0

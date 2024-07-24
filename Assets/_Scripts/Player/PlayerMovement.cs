@@ -13,11 +13,14 @@ public class PlayerMovement : MonoBehaviour{
 
 	[Header("Base Movement Variables")]
 	[SerializeField] private float movementSpeed;
+	[SerializeField] private float slopeRayStandingDetectDistance = 1.05f;
+	[SerializeField] private float slopeRaySlidingDetectDistance = 0.5f;
 
 	[Header("Jumping Variables")]
 	[SerializeField] private float jumpHeight = 0.3f;
 	[SerializeField] private float slideJumpHeight = 0.75f;
 	[SerializeField] private float slideJumpWindow = 0.5f;
+	[SerializeField] private float coyoteTimeWindow = 0.15f;
 	[SerializeField] private float jumpCooldown = 0.15f;
 
 	[Header("Sliding Variables")]
@@ -64,12 +67,17 @@ public class PlayerMovement : MonoBehaviour{
 	private Vector3 initialCameraPosition;
 	private Vector3 initialGroundCheckPosition;
 
+	private Vector3 slideVector;
+
 	private IEnumerator currentJumpCooldown;
+	private IEnumerator currentCoyoteTimeWindow;
 	private IEnumerator currentSlideJumpWindow;
 	private IEnumerator currentSlideCooldown;
 	private IEnumerator currentSlideAction;
 
 	public Action OnSlideUnlocked;
+
+	private bool previousGroundCheck = false;
 
 	private void Start() {
 		standingHeight = characterController.height;
@@ -99,13 +107,17 @@ public class PlayerMovement : MonoBehaviour{
 		if(!isSlideUnlocked) return;
 
 		if(currentSlideCooldown != null || context.phase != InputActionPhase.Performed || !grounded) return;
-		if(currentSlideAction == null){
-			StartSliding();
-		}
+		if(currentSlideAction != null) return;
+		
+		StartSliding();
 	}
 
 	public void JumpInput(InputAction.CallbackContext context){
-		if(context.phase != InputActionPhase.Performed || currentJumpCooldown != null || !grounded || isSliding) return;
+		if(context.phase != InputActionPhase.Performed || currentJumpCooldown != null || !grounded && currentCoyoteTimeWindow == null || isSliding) return;
+
+		if(!grounded && currentCoyoteTimeWindow != null){
+			StopCoyoteTimeWindow();
+		}
 
 		float height = jumpHeight;
 
@@ -121,8 +133,35 @@ public class PlayerMovement : MonoBehaviour{
 		StartCoroutine(currentJumpCooldown);
 	}
 
+	public void UnlockSlideAbility(){
+		if(isSlideUnlocked) return;
+
+		isSlideUnlocked = true;
+		OnSlideUnlocked?.Invoke();
+	}
+
+	public bool IsMoving(){
+		return moveDirection != Vector3.zero;
+	}
+
+	public bool IsGrounded(){
+		return grounded;
+	}
+
 	private void GroundCheck(){
 		grounded = Physics.CheckSphere(groundCheckTransform.position, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
+		if(previousGroundCheck && !grounded){
+			//left the ground start the coyote time window
+			currentCoyoteTimeWindow = CoyoteTimeWindowCoroutine();
+			StartCoroutine(CoyoteTimeWindowCoroutine());
+		}
+
+		if(!previousGroundCheck && grounded && currentCoyoteTimeWindow != null){
+			//We are grounded stop the coyote time window
+			StopCoyoteTimeWindow();
+		}
+
+		previousGroundCheck = grounded;
     }
 
 	private void Gravity(){
@@ -161,23 +200,52 @@ public class PlayerMovement : MonoBehaviour{
 			OnPlayerMovementDirectionChanged?.Invoke(this, new PlayerMovementDirectionChangedEventArgs(playerMoveInput));
 		}
 
-        characterController.Move(movementSpeed * Time.deltaTime * moveDirection.normalized + Time.deltaTime * verticalVelocity * Vector3.up);
+		Vector3 velocity = movementSpeed * moveDirection.normalized;
+
+		velocity += slideVector;
+
+		velocity = AdjustMovementVectorToSlope(velocity);
+		velocity.y += verticalVelocity;
+
+        characterController.Move(velocity * Time.deltaTime);
 		previousMoveInput = playerMoveInput;
     }
 
-	public void UnlockSlideAbility(){
-		if(isSlideUnlocked) return;
+    private void OnSlideShrinkFinished(){
+		if(currentSlideAction == null && characterController.height != standingHeight){			
+			currentSlideAction = ValidStandingCheckCoroutine();
+			StartCoroutine(currentSlideAction);
+		}
+		else{
+			isSliding = false;
+			currentSlideJumpWindow = SlideJumpWindowCoroutine();
+			StartCoroutine(currentSlideJumpWindow);
+		}
+    }
 
-		isSlideUnlocked = true;
-		OnSlideUnlocked?.Invoke();
+	private void StopCoyoteTimeWindow(){
+		if(currentCoyoteTimeWindow != null){
+			StopCoroutine(currentCoyoteTimeWindow);
+			currentCoyoteTimeWindow = null;
+		}
 	}
 
-	public bool IsMoving(){
-		return moveDirection != Vector3.zero;
+	private Vector3 AdjustMovementVectorToSlope(Vector3 velocity){
+		Ray slopeDetectionRay = new Ray(transform.position, Vector3.down);
+
+		float slopeDetectionDistance = isSliding ? slopeRaySlidingDetectDistance : slopeRayStandingDetectDistance;
+
+		if(!Physics.Raycast(slopeDetectionRay, out RaycastHit hitInfo, slopeDetectionDistance, groundLayers)) return velocity;
+
+		Quaternion slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
+		Vector3 adjustedVelocity = slopeRotation * velocity;
+
+		if(adjustedVelocity.y < 0) return adjustedVelocity;
+		return velocity;
 	}
 
 	private IEnumerator ValidStandingCheckCoroutine(){
-		while(Physics.Raycast(transform.position, Vector3.up, standingHeight)){
+		while(Physics.SphereCast(transform.position, characterController.radius,  Vector3.up, out RaycastHit hitInfo, standingHeight)){
 			yield return null;
 		}
 
@@ -218,31 +286,26 @@ public class PlayerMovement : MonoBehaviour{
 		OnSlideShrinkFinished();
 	}
 
-    private void OnSlideShrinkFinished(){
-		if(currentSlideAction == null && characterController.height != standingHeight){
-			currentSlideAction = SlideLerpAnimationCoroutine(standingHeight);
-			StartCoroutine(currentSlideAction);
-		}
-		else{
-			isSliding = false;
-			currentSlideJumpWindow = SlideJumpWindowCoroutine();
-			StartCoroutine(currentSlideJumpWindow);
-		}
-    }
-
     private IEnumerator SlideMovementCoroutine(){
 		float elapsedTime = 0f;
     	while (elapsedTime < slideDurationTimeInSeconds){
-			Vector3 slideDirection = cameraTransform.forward;
-        	characterController.Move(slideSpeed * Time.deltaTime * slideDirection);
+			slideVector = cameraTransform.forward;
+			slideVector *= slideSpeed;
         	elapsedTime += Time.deltaTime;
         	yield return null;
     	}
+
+		slideVector = Vector3.zero;
 	}
 
 	private IEnumerator SlideJumpWindowCoroutine(){
 		yield return new WaitForSeconds(slideJumpWindow);
 		currentSlideJumpWindow = null;
+	}
+
+	private IEnumerator CoyoteTimeWindowCoroutine(){
+		yield return new WaitForSeconds(coyoteTimeWindow);
+		currentCoyoteTimeWindow = null;
 	}
 
 	private IEnumerator JumpCooldownCoroutine(){
@@ -258,6 +321,10 @@ public class PlayerMovement : MonoBehaviour{
 	private void OnDrawGizmosSelected() {
 		if(!drawGizmos) return;
 
+		float slopeDetectionDistance = isSliding ? slopeRaySlidingDetectDistance : slopeRayStandingDetectDistance;
+
+		Gizmos.DrawLine(transform.position, transform.position + Vector3.down * slopeDetectionDistance);
+
 		Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
 		Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
 
@@ -265,6 +332,13 @@ public class PlayerMovement : MonoBehaviour{
 		else Gizmos.color = transparentRed;
 
 		Gizmos.DrawSphere(groundCheckTransform.position, groundedRadius);
-		Gizmos.DrawRay(transform.position, Vector3.up * standingHeight);
+
+		if(Physics.SphereCast(transform.position, characterController.radius, Vector3.up, out RaycastHit hitInfo, standingHeight)){
+			Gizmos.color = transparentRed;
+		}
+		else{
+			Gizmos.color = transparentGreen;
+		}
+		Gizmos.DrawWireSphere(transform.position + Vector3.up, characterController.radius);
 	}
 }

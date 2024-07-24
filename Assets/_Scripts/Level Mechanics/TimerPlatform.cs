@@ -27,12 +27,23 @@ public class TimerPlatform : MonoBehaviour{
 		StopAllCoroutines();
 	}
 
-	public void SwitchPlatformState(){
-		isActive = !isActive;
+	public void SwitchPlatformState(bool state){
+		StopCurrentTimer();
+
+		isActive = state;
 		UpdatePlatformState();
 	}
 
+	public void StopCurrentTimer(){
+		if(currentPlatformTimer != null){
+			StopCoroutine(currentPlatformTimer);
+			currentPlatformTimer = null;
+		}
+	}
+
 	public void StartTimer(){
+		StopCurrentTimer();
+
 		currentPlatformTimer = PlatformTimerCoroutine();
 		StartCoroutine(currentPlatformTimer);
 	}
@@ -43,6 +54,8 @@ public class TimerPlatform : MonoBehaviour{
 		isActive = !isActive;
 		
 		UpdatePlatformState();
+
+		currentPlatformTimer = null;
 
 		if(isManualTimer) yield break;
 

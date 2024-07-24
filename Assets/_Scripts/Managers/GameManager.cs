@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour{
 	}
 
 	private void Start() {
+		if(spawnedInLevelParents.Count == 0) return;
+
 		for (int i = 0; i < spawnedInLevelParents.Count; i++){
 			spawnedInLevelParents[i].SetActive(false);
 		}

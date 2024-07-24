@@ -48,8 +48,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	// 	}
 	// }
 
-	private void Awake()
-    {
+	private void Awake(){
         startPos = cameraTransform.localPosition;
         currentAmplitude = bobbingAmplitude;
         currentFrequency = bobbingFrequency;
@@ -58,12 +57,10 @@ public class PlayerFirstCamLook : MonoBehaviour{
     }
 
     public void UpdateCameraSens(){
-        if (PlayerPrefs.HasKey(MOUSE_SENS))
-        {
+        if (PlayerPrefs.HasKey(MOUSE_SENS)){
             camSens = PlayerPrefs.GetFloat(MOUSE_SENS);
         }
-        else
-        {
+        else{
             camSens = 10f;
         }
     }
@@ -107,7 +104,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	}
 
 	private void CheckMotion(){
-		if(!playerMovement.IsMoving()) return;
+		if(!playerMovement.IsMoving() || !playerMovement.IsGrounded()) return;
 		PlayMotion(StepMotionCalculation());
 	}
 

@@ -24,6 +24,14 @@ public class MovingPlatform : MonoBehaviour{
 
     private Transform currentPoint;
 
+    private const string PLAYER = "Player";
+
+    private CharacterController playerCharacterController;
+    private bool isPlayerOnPlatform = false;
+
+    Vector3 platformMovementDelta;
+    Vector3 lastPlatformPosition;
+
     private void Awake() {
         currentPoint = pointATransform;
         transform.position = pointATransform.position;
@@ -51,6 +59,15 @@ public class MovingPlatform : MonoBehaviour{
         while (t < 1) {
             t += Time.deltaTime * movementSpeed;
             transform.position = Vector3.Lerp(currentPoint.position, positionTransform.position, t * platformAnimationCurve.Evaluate(t));
+            
+            platformMovementDelta = transform.position - lastPlatformPosition;
+
+            if(playerCharacterController != null && isPlayerOnPlatform){
+                playerCharacterController.Move(platformMovementDelta);
+            }
+
+            lastPlatformPosition = transform.position;
+
             yield return null;
         }
 
@@ -58,6 +75,22 @@ public class MovingPlatform : MonoBehaviour{
         transform.position = positionTransform.position;
 
         StartCoroutine(MovementDelay());
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if(!other.CompareTag(PLAYER)) return;
+
+        if(playerCharacterController == null){
+            other.TryGetComponent(out playerCharacterController);
+        }        
+
+        isPlayerOnPlatform = true;
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if(!other.CompareTag(PLAYER)) return;
+
+        isPlayerOnPlatform = false;
     }
 
     private void OnDrawGizmos() {

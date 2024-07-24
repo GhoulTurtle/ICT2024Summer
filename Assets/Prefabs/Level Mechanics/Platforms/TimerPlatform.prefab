@@ -118,10 +118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbf2fb23928a1c64eacbabf6e5f1dad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeMaterial: {fileID: 2100000, guid: 464aa8dc83108f249a5b3cd75f0f5d85, type: 2}
-  inactiveMaterial: {fileID: 2100000, guid: aa2fec226364ea640a62d7dd8c7572ce, type: 2}
+  activeMaterial: {fileID: 2100000, guid: 0480c8b6bb2600e4e8747995a875be56, type: 2}
+  inactiveMaterial: {fileID: 2100000, guid: dfc5012f5a911164d9fec0bdcf191e04, type: 2}
   platformMeshRenderer: {fileID: 6463553353588759488}
   platformCollider: {fileID: 419262897556273970}
-  platformSwitchTimer: 5
-  isActive: 1
-  isManualTimer: 0
+  platformSwitchTimer: 6
+  isActive: 0
+  isManualTimer: 1
