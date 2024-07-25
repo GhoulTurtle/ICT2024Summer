@@ -104,7 +104,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	}
 
 	private void CheckMotion(){
-		if(!playerMovement.IsMoving() || !playerMovement.IsGrounded()) return;
+		if(!playerMovement.IsMoving() || !playerMovement.IsGrounded() || playerMovement.IsSliding()) return;
 		PlayMotion(StepMotionCalculation());
 	}
 
