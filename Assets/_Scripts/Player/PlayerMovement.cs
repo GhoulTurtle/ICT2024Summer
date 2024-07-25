@@ -23,6 +23,15 @@ public class PlayerMovement : MonoBehaviour{
 	[SerializeField] private float jumpBufferWindow = 0.25f;
 	[SerializeField] private float jumpCooldown = 0.15f;
 
+	[Header("Wall Riding Variables")]
+	[SerializeField] private float wallRideGravity = -2f;
+	[SerializeField] private float wallRideDetectionRayDistance = 1.25f;
+	[SerializeField] private float wallJumpDistance = 1.5f;
+	[SerializeField] private float wallJumpHeight = 0.5f;
+	[SerializeField] private float wallJumpConsumeRate = 4.5f;
+	[SerializeField] private float wallJumpForceTime = 0.5f;
+	[SerializeField] private float wallRideVerticalVelocityDamp = 1.25f;
+
 	[Header("Sliding Variables")]
 	[SerializeField] private float slideShrinkTimeInSeconds = 0.1f;
 	[SerializeField] private float slideDurationTimeInSeconds;
@@ -61,7 +70,8 @@ public class PlayerMovement : MonoBehaviour{
 	private float standingHeight;
 
 	private bool grounded;
-	private bool isSliding;
+	private bool isSliding = false;
+	private bool isWallRiding = false;
 	private bool hasJumped = false;
 
 	private Vector2 previousMoveInput;
@@ -72,6 +82,7 @@ public class PlayerMovement : MonoBehaviour{
 
 	private Vector3 slideVector;
 	private Vector3 slideVectorCarry;
+	private Vector3 wallJumpVector;
 
 	private IEnumerator currentJumpCooldown;
 	private IEnumerator currentCoyoteTimeWindow;
@@ -81,9 +92,17 @@ public class PlayerMovement : MonoBehaviour{
 	private IEnumerator currentSlideSizeCoroutine;
 	private IEnumerator currentSlideCarry;
 
+	private IEnumerator currentWallJumpForce;
+
+	private Collider currentWallRideCollider;
+	private RaycastHit currentWallRideHitInfo;
+
 	public Action OnSlideUnlocked;
+	public Action<bool> OnStartWallRide;
+	public Action OnStopWallRide;
 
 	private bool previousGroundCheck = false;
+	private bool isWallRidingLeft;
 
 	private void Start() {
 		standingHeight = characterController.height;
@@ -97,6 +116,7 @@ public class PlayerMovement : MonoBehaviour{
 
 	private void Update() {
 		Move();
+		WallRideCheck();
 		GroundCheck();
         Gravity();
 	}
@@ -118,7 +138,12 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void JumpInput(InputAction.CallbackContext context){
-        if (context.phase != InputActionPhase.Performed || currentJumpCooldown != null) return;
+        if (context.phase != InputActionPhase.Performed || currentJumpCooldown != null || !isSliding && characterController.height != standingHeight) return;
+
+		if(isWallRiding && !hasJumped){
+			PerformWallJump();
+			return;
+		}
 
         if (!grounded && currentCoyoteTimeWindow == null){
             StopJumpBufferWindow();
@@ -136,10 +161,6 @@ public class PlayerMovement : MonoBehaviour{
 			return;
 		} 
 
-		if(isSliding){
-			OnSlideFinished();
-		}
-
         Jump();
     }
 
@@ -156,13 +177,44 @@ public class PlayerMovement : MonoBehaviour{
 
         currentJumpCooldown = JumpCooldownCoroutine();
         StartCoroutine(currentJumpCooldown);
+
+		if(isSliding){
+			OnSlideFinished();
+		}
     }
+
+	private void PerformWallJump(){
+		hasJumped = true;
+		Vector3 wallJumpNormal = currentWallRideHitInfo.normal;
+		Vector3 wallJumpForce = wallJumpNormal * wallJumpDistance;
+		wallJumpVector = wallJumpForce;
+		verticalVelocity = Mathf.Sqrt(wallJumpHeight * -2f * gravity);;
+
+		StopWallJumpForce();
+		StartWallJumpForce();
+	}
+
+	private void StopWallJumpForce(){
+		if(currentWallJumpForce != null){
+			StopCoroutine(currentWallJumpForce);
+			currentWallJumpForce = null;
+		} 
+	}
+
+	private void StartWallJumpForce(){
+		currentWallJumpForce = WallJumpVectorCoroutine();
+		StartCoroutine(currentWallJumpForce);
+	}
 
     public void UnlockSlideAbility(){
 		if(isSlideUnlocked) return;
 
 		isSlideUnlocked = true;
 		OnSlideUnlocked?.Invoke();
+	}
+
+	public Vector3 GetMoveDirection(){
+		return moveDirection;
 	}
 
 	public bool IsMoving(){
@@ -177,7 +229,62 @@ public class PlayerMovement : MonoBehaviour{
 		return isSliding;
 	}
 
-	private void GroundCheck(){
+	public bool IsWallRiding(){
+		return isWallRiding;
+	}
+
+	private void WallRideCheck(){
+		if(grounded){
+			StopWallRiding();
+			return;
+		}
+
+		RaycastHit hitInfo;
+		//See if we are still on the wall if current wall ride collider isn't null
+		if(currentWallRideCollider != null){
+			if(Physics.Raycast(cameraTransform.position, -cameraTransform.right, out hitInfo, wallRideDetectionRayDistance, groundLayers) && hitInfo.collider == currentWallRideCollider || 
+			   Physics.Raycast(cameraTransform.position, cameraTransform.right, out hitInfo, wallRideDetectionRayDistance, groundLayers) && hitInfo.collider == currentWallRideCollider) 
+			   return;
+
+			StopWallRiding();
+		}
+
+		if(isWallRiding) return;
+        
+		//See if there is a wall to our left
+        if (Physics.Raycast(cameraTransform.position, -cameraTransform.right, out hitInfo, wallRideDetectionRayDistance, groundLayers)){
+			currentWallRideHitInfo = hitInfo;
+			StartWallRiding(currentWallRideHitInfo.collider, true);
+        }
+
+        //See if there is a wall to our right
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.right, out hitInfo, wallRideDetectionRayDistance, groundLayers)){
+			currentWallRideHitInfo = hitInfo;
+			StartWallRiding(currentWallRideHitInfo.collider, false);
+		}
+    }
+
+    private void StopWallRiding(){
+		if(currentWallRideCollider != null){
+			isWallRiding = false;
+        	currentWallRideCollider = null;
+			OnStopWallRide?.Invoke();
+		}
+    }
+
+    private void StartWallRiding(Collider wallCollider, bool isLeftWall){
+		StopWallRiding();
+		verticalVelocity /= wallRideVerticalVelocityDamp; //damp our vertical velocity when starting to ride a wall
+		isWallRiding = true;
+
+		if(hasJumped) hasJumped = false;
+		
+		currentWallRideCollider = wallCollider;
+		isWallRidingLeft = isLeftWall;
+		OnStartWallRide?.Invoke(isLeftWall);
+    }
+
+    private void GroundCheck(){
 		grounded = Physics.CheckSphere(groundCheckTransform.position, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
 		if(previousGroundCheck && !grounded && !hasJumped){
 			//left the ground start the coyote time window
@@ -202,7 +309,8 @@ public class PlayerMovement : MonoBehaviour{
 		}
 
 		if(verticalVelocity > terminalVelocity){
-			verticalVelocity += gravity * Time.deltaTime;
+			float currentGravity = isWallRiding ? wallRideGravity : gravity;
+			verticalVelocity += currentGravity * Time.deltaTime;
 		}
     }
 
@@ -234,6 +342,7 @@ public class PlayerMovement : MonoBehaviour{
 		Vector3 velocity = isSliding ? slideVector : movementSpeed * moveDirection.normalized;
 
 		velocity += slideVectorCarry;
+		velocity += wallJumpVector;
 
 		velocity = AdjustMovementVectorToSlope(velocity);
 		velocity.y += verticalVelocity;
@@ -386,6 +495,18 @@ public class PlayerMovement : MonoBehaviour{
 		slideVector = Vector3.zero;
 	}
 
+	private IEnumerator WallJumpVectorCoroutine(){
+		float elapsedTime = 0f;
+		while(elapsedTime < wallJumpForceTime){
+			wallJumpVector = Vector3.Lerp(wallJumpVector, Vector3.zero, wallJumpConsumeRate * Time.deltaTime);
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+		
+		wallJumpVector = Vector3.zero;
+		StopWallJumpForce();
+	}
+
 	private IEnumerator CoyoteTimeWindowCoroutine(){
 		yield return new WaitForSeconds(coyoteTimeWindow);
 		currentCoyoteTimeWindow = null;
@@ -407,6 +528,10 @@ public class PlayerMovement : MonoBehaviour{
 		float slopeDetectionDistance = isSliding ? slopeRaySlidingDetectDistance : slopeRayStandingDetectDistance;
 
 		Gizmos.DrawLine(transform.position, transform.position + Vector3.down * slopeDetectionDistance);
+
+		//Wall ride rays
+		Gizmos.DrawLine(cameraTransform.position, cameraTransform.position + -cameraTransform.right * wallRideDetectionRayDistance);
+		Gizmos.DrawLine(cameraTransform.position, cameraTransform.position + cameraTransform.right * wallRideDetectionRayDistance);
 
 		Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
 		Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);

@@ -1603,11 +1603,18 @@ MonoBehaviour:
   coyoteTimeWindow: 0.25
   jumpBufferWindow: 0.25
   jumpCooldown: 0
+  wallRideGravity: -3.5
+  wallRideDetectionRayDistance: 1
+  wallJumpDistance: 18
+  wallJumpHeight: 0.5
+  wallJumpConsumeRate: 2.5
+  wallJumpForceTime: 0.75
+  wallRideVerticalVelocityDamp: 2.5
   slideShrinkTimeInSeconds: 0.4
   slideDurationTimeInSeconds: 0.4
   slideVelocityCarryOverTimeInSeconds: 1.5
   slideVelocityConsumeRate: 3.8
-  slideSpeed: 25
+  slideSpeed: 20
   slideHeight: 0.8
   slideCooldown: 0.4
   gravity: -15
@@ -1629,7 +1636,8 @@ MonoBehaviour:
   camSens: 10
   lockCursor: 1
   tiltTime: 0.5
-  tiltAmount: 2
+  playerMovementTiltAmount: 2
+  wallRideTiltAmount: 4
   bobbingAmplitude: 0.001
   bobbingFrequency: 16
   headBobResetSpeed: 4

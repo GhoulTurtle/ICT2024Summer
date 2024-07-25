@@ -10,7 +10,8 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
 	[Header("Tilt Variables")]
 	[SerializeField] private float tiltTime = 0.25f;
-	[SerializeField] private float tiltAmount = 2f;
+	[SerializeField] private float playerMovementTiltAmount = 2f;
+	[SerializeField] private float wallRideTiltAmount = 4f;
 
 	[Header("Headbob Variables")]
 	[SerializeField, Range(0, 0.1f)] private float bobbingAmplitude = 0.003f;
@@ -67,18 +68,35 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
     private void Start() {
 		if(TryGetComponent(out playerMovement)){
-			playerMovement.OnPlayerMovementDirectionChanged += UpdateCameraTilt;
+			playerMovement.OnPlayerMovementDirectionChanged += UpdateCameraTiltOnPlayerMovementDir;
 			playerMovement.OnPlayerMovementStopped += ResetCameraTilt;
+			playerMovement.OnStartWallRide += StartWallTilt;
+			playerMovement.OnStopWallRide += StopWallTilt;
 		}
 
 		Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
 	}
 
-    private void OnDestroy() {
+	private void OnDestroy() {
 		if(playerMovement != null){
-			playerMovement.OnPlayerMovementDirectionChanged -= UpdateCameraTilt;
+			playerMovement.OnPlayerMovementDirectionChanged -= UpdateCameraTiltOnPlayerMovementDir;
 			playerMovement.OnPlayerMovementStopped -= ResetCameraTilt;
+			playerMovement.OnStartWallRide -= StartWallTilt;
+			playerMovement.OnStopWallRide -= StopWallTilt;
 		}
+	}
+
+    private void StartWallTilt(bool isLeft){
+		ResetCameraTilt(null, EventArgs.Empty);
+		
+		Vector3 wallRideTiltVector = isLeft ? -transform.right : transform.right;
+
+		ApplyCameraTilt(wallRideTiltVector);
+    }
+
+    private void StopWallTilt(){
+		ResetCameraTilt(null, EventArgs.Empty);
+		ApplyCameraTilt(playerMovement.GetMoveDirection());
 	}
 
 	public void Update(){
@@ -104,7 +122,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	}
 
 	private void CheckMotion(){
-		if(!playerMovement.IsMoving() || !playerMovement.IsGrounded() || playerMovement.IsSliding()) return;
+		if(!playerMovement.IsMoving() || !playerMovement.IsGrounded() || playerMovement.IsSliding() || playerMovement.IsWallRiding()) return;
 		PlayMotion(StepMotionCalculation());
 	}
 
@@ -135,16 +153,25 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	}
 
     private void ResetCameraTilt(object sender, EventArgs e){
+		if(playerMovement.IsWallRiding()) return;
+		
 		cameraTransform.DOLocalRotate(Vector3.zero, tiltTime);
     }
 
-    private void UpdateCameraTilt(object sender, PlayerMovement.PlayerMovementDirectionChangedEventArgs e){
-		currentMovementVectorNormalized = e.rawDirection.normalized;
+    private void UpdateCameraTiltOnPlayerMovementDir(object sender, PlayerMovement.PlayerMovementDirectionChangedEventArgs e){
+        if (playerMovement.IsWallRiding()) return;
+        ApplyCameraTilt(e.rawDirection);
+    }
 
-		Vector3 tiltDirection = currentMovementVectorNormalized * tiltAmount;
+    private void ApplyCameraTilt(Vector3 rawDirection){
+        currentMovementVectorNormalized = rawDirection.normalized;
 
-		currentTiltVector = new Vector3(tiltDirection.y, 0, -tiltDirection.x);
+		float tiltAmount = playerMovement.IsWallRiding() ? wallRideTiltAmount : playerMovementTiltAmount;
 
-		cameraTransform.DOLocalRotate(currentTiltVector, tiltTime);
+        Vector3 tiltDirection = currentMovementVectorNormalized * tiltAmount;
+
+        currentTiltVector = new Vector3(tiltDirection.y, 0, -tiltDirection.x);
+
+        cameraTransform.DOLocalRotate(currentTiltVector, tiltTime);
     }
 }

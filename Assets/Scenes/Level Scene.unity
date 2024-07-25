@@ -2009,12 +2009,40 @@ PrefabInstance:
       value: Setup
       objectReference: {fileID: 0}
     - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: slideSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: isSlideUnlocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: slideJumpWindow
       value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: slopeRayDetectDistance
       value: 1.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: slideShrinkTimeInSeconds
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: slideVelocityConsumeRate
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: slideDurationTimeInSeconds
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: wallRideDetectionRayDistance
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: slideVelocityCarryOverTimeInSeconds
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4010386928767932832, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: m_LocalPosition.z
