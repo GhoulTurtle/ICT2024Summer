@@ -1595,31 +1595,34 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
-  movementSpeed: 9
+  movementSpeed: 12
   slopeRayStandingDetectDistance: 1.05
   slopeRaySlidingDetectDistance: 0.5
-  jumpHeight: 2
+  maxJumpHeight: 2
   slideJumpHeight: 3
-  coyoteTimeWindow: 0.25
-  jumpBufferWindow: 0.25
+  jumpTime: 0.25
+  upwardJumpGravity: -15
+  downwardJumpGravity: -35
   jumpCooldown: 0
+  jumpBufferWindow: 0.25
+  coyoteTimeWindow: 0.25
   wallRideGravity: -3.5
-  wallRideDetectionRayDistance: 1
+  wallRideDetectionRayDistance: 0.6
   wallJumpDistance: 18
-  wallJumpHeight: 0.5
+  wallJumpHeight: 2
   wallJumpConsumeRate: 2.5
   wallJumpForceTime: 0.75
-  wallRideVerticalVelocityDamp: 2.5
-  slideShrinkTimeInSeconds: 0.4
-  slideDurationTimeInSeconds: 0.4
+  wallRideVerticalVelocityDamp: 3
+  slideShrinkTimeInSeconds: 0.35
+  slideDurationTimeInSeconds: 0.35
   slideVelocityCarryOverTimeInSeconds: 1.5
-  slideVelocityConsumeRate: 3.8
-  slideSpeed: 20
+  slideVelocityConsumeRate: 4.5
+  slideSpeed: 25
   slideHeight: 0.8
   slideCooldown: 0.4
-  gravity: -15
+  gravity: -12
   groundedRadius: 0.4
-  isSlideUnlocked: 1
+  isSlideUnlocked: 0
   drawGizmos: 1
 --- !u!114 &4119826213055038717
 MonoBehaviour:

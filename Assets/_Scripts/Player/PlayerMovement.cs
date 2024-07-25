@@ -17,11 +17,14 @@ public class PlayerMovement : MonoBehaviour{
 	[SerializeField] private float slopeRaySlidingDetectDistance = 0.5f;
 
 	[Header("Jumping Variables")]
-	[SerializeField] private float jumpHeight = 0.3f;
+	[SerializeField] private float maxJumpHeight = 2f;
 	[SerializeField] private float slideJumpHeight = 0.75f;
-	[SerializeField] private float coyoteTimeWindow = 0.15f;
-	[SerializeField] private float jumpBufferWindow = 0.25f;
+	[SerializeField] private float jumpTime = 0.25f;
+	[SerializeField] private float upwardJumpGravity;
+	[SerializeField] private float downwardJumpGravity;
 	[SerializeField] private float jumpCooldown = 0.15f;
+	[SerializeField] private float jumpBufferWindow = 0.25f;
+	[SerializeField] private float coyoteTimeWindow = 0.15f;
 
 	[Header("Wall Riding Variables")]
 	[SerializeField] private float wallRideGravity = -2f;
@@ -84,6 +87,7 @@ public class PlayerMovement : MonoBehaviour{
 	private Vector3 slideVectorCarry;
 	private Vector3 wallJumpVector;
 
+	private IEnumerator currentJump;
 	private IEnumerator currentJumpCooldown;
 	private IEnumerator currentCoyoteTimeWindow;
 	private IEnumerator currentJumpBufferWindow;
@@ -102,7 +106,6 @@ public class PlayerMovement : MonoBehaviour{
 	public Action OnStopWallRide;
 
 	private bool previousGroundCheck = false;
-	private bool isWallRidingLeft;
 
 	private void Start() {
 		standingHeight = characterController.height;
@@ -138,7 +141,14 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void JumpInput(InputAction.CallbackContext context){
-        if (context.phase != InputActionPhase.Performed || currentJumpCooldown != null || !isSliding && characterController.height != standingHeight) return;
+		if(context.phase == InputActionPhase.Canceled && hasJumped){
+			StopJump();
+			return;
+		} 
+
+        if(currentJumpCooldown != null) return;
+		if(!isSliding && characterController.height != standingHeight) return;
+		if(context.phase != InputActionPhase.Performed) return;
 
 		if(isWallRiding && !hasJumped){
 			PerformWallJump();
@@ -161,25 +171,35 @@ public class PlayerMovement : MonoBehaviour{
 			return;
 		} 
 
-        Jump();
+        StartJump();
     }
 
-    private void Jump(){
+    private void StartJump(){
+		StopJump();
+
 		hasJumped = true;
 
-        float height = jumpHeight;
+        float height = maxJumpHeight;
 
         if (isSliding){
             height = slideJumpHeight;
         }
 
-        verticalVelocity = Mathf.Sqrt(height * -2f * gravity);
+		currentJump = JumpCoroutine(height);
+		StartCoroutine(currentJump);
 
         currentJumpCooldown = JumpCooldownCoroutine();
         StartCoroutine(currentJumpCooldown);
 
 		if(isSliding){
 			OnSlideFinished();
+		}
+    }
+
+	private void StopJump(){
+        if(currentJump != null){
+			StopCoroutine(currentJump);
+			currentJump = null;
 		}
     }
 
@@ -274,13 +294,13 @@ public class PlayerMovement : MonoBehaviour{
 
     private void StartWallRiding(Collider wallCollider, bool isLeftWall){
 		StopWallRiding();
+		StopJump();
 		verticalVelocity /= wallRideVerticalVelocityDamp; //damp our vertical velocity when starting to ride a wall
 		isWallRiding = true;
 
 		if(hasJumped) hasJumped = false;
 		
 		currentWallRideCollider = wallCollider;
-		isWallRidingLeft = isLeftWall;
 		OnStartWallRide?.Invoke(isLeftWall);
     }
 
@@ -310,6 +330,7 @@ public class PlayerMovement : MonoBehaviour{
 
 		if(verticalVelocity > terminalVelocity){
 			float currentGravity = isWallRiding ? wallRideGravity : gravity;
+			if(hasJumped) currentGravity = downwardJumpGravity;
 			verticalVelocity += currentGravity * Time.deltaTime;
 		}
     }
@@ -415,12 +436,25 @@ public class PlayerMovement : MonoBehaviour{
 		return velocity;
 	}
 
+	private IEnumerator JumpCoroutine(float jumpHeight){
+		float current = 0f;
+		float currentJumpHeight = jumpHeight / 0.75f; 
+		while(current < jumpTime){
+			verticalVelocity = Mathf.Sqrt(currentJumpHeight * -2f * upwardJumpGravity);
+			currentJumpHeight = Mathf.Lerp(currentJumpHeight, jumpHeight, current / jumpTime);
+			current += Time.deltaTime;
+			yield return null;
+		}
+
+		StopJump();
+	}
+
 	private IEnumerator JumpBufferCoroutine(){
 		float currentCheckTime = 0;
 
 		while(currentCheckTime <= jumpBufferWindow){
 			if(grounded){
-				Jump();
+				StartJump();
 				StopJumpBufferWindow();
 				yield break;
 			}
