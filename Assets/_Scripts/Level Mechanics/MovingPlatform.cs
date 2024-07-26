@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ public class MovingPlatform : MonoBehaviour{
     private const string PLAYER = "Player";
 
     private CharacterController playerCharacterController;
+    private PlayerHealth playerHealth;
     private bool isPlayerOnPlatform = false;
 
     Vector3 platformMovementDelta;
@@ -43,6 +45,9 @@ public class MovingPlatform : MonoBehaviour{
 
     private void OnDestroy() {
         StopAllCoroutines();
+        if(playerHealth != null){
+            playerHealth.OnResetAction -= PlayerResetAction;
+        }
     }
 
     private IEnumerator MovementDelay(){
@@ -82,9 +87,23 @@ public class MovingPlatform : MonoBehaviour{
 
         if(playerCharacterController == null){
             other.TryGetComponent(out playerCharacterController);
-        }        
+        } 
+
+        if(playerHealth == null){
+            other.TryGetComponent(out playerHealth);
+        }       
+
+        if(playerHealth != null){
+            playerHealth.OnResetAction += PlayerResetAction;
+        }
 
         isPlayerOnPlatform = true;
+    }
+
+    private void PlayerResetAction(int obj){
+        if(isPlayerOnPlatform){
+            isPlayerOnPlatform = false;
+        }
     }
 
     private void OnTriggerExit(Collider other) {
