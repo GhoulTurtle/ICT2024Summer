@@ -15,16 +15,16 @@ MonoBehaviour:
   playerDeathEntries:
   - deathBuff: 0
     spawnedInLevelParentIndex: 0
-    maxHealthAmount: 15
+    maxHealthAmount: 3
   - deathBuff: 1
     spawnedInLevelParentIndex: 0
     maxHealthAmount: 0
   - deathBuff: 0
     spawnedInLevelParentIndex: 0
-    maxHealthAmount: 20
+    maxHealthAmount: 4
   - deathBuff: 1
     spawnedInLevelParentIndex: 1
     maxHealthAmount: 0
   - deathBuff: 0
     spawnedInLevelParentIndex: 0
-    maxHealthAmount: 25
+    maxHealthAmount: 5

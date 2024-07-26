@@ -3,9 +3,9 @@ using UnityEngine;
 public class TotemHitter : MonoBehaviour{
 	private const string PLAYER = "Player";
 
-	private float damageAmount;
+	private int damageAmount;
 
-	public void SetupHitter(float _damageAmount){
+	public void SetupHitter(int _damageAmount){
 		damageAmount = _damageAmount;
 	}
 

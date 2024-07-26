@@ -5,7 +5,7 @@ public class PlayerPickup : MonoBehaviour{
 	[Header("Required References")]
 	[SerializeField] private float pickupDestroyTimeInSeconds;
 	[SerializeField] private PlayerPickupType pickupType;
-	[SerializeField] private float healthAmount;
+	[SerializeField] private int healthAmount = 1;
 
 	[Header("Pickup Events")]
 	[SerializeField] private UnityEvent OnPickup;

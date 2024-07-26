@@ -13,7 +13,7 @@ public class CannonBall : MonoBehaviour{
 	[SerializeField] private LayerMask destoryProjectileLayers;
 	[SerializeField] private int maxTargetColliders;
 
-	private float damageAmount;
+	private int damageAmount;
 	private float projectileSpeed = 5f;
 
 	private Collider[] targetColliders;
@@ -30,7 +30,7 @@ public class CannonBall : MonoBehaviour{
 		targetColliders = new Collider[maxTargetColliders];
 	}
 
-	public void SetupProjectile(float _damageAmount, float _projectileSpeed, Vector3 _moveDir){
+	public void SetupProjectile(int _damageAmount, float _projectileSpeed, Vector3 _moveDir){
 		damageAmount = _damageAmount;
 		projectileSpeed = _projectileSpeed;
 		

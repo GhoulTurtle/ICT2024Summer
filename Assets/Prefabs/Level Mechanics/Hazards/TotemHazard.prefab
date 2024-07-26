@@ -407,7 +407,7 @@ MonoBehaviour:
   - {fileID: 8116469113683242587}
   - {fileID: 7358945298858638203}
   rotationSpeed: 100
-  damageAmountPerHit: 5
+  damageAmountPerHit: 1
 --- !u!1 &8990412991068852674
 GameObject:
   m_ObjectHideFlags: 0

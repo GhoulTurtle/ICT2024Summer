@@ -10,7 +10,7 @@ public class CannonBallSpawner : MonoBehaviour{
 	[SerializeField] private bool startSpawningOnStart = false;
 	[SerializeField] private float cannonBallSpawnCooldown;
 	[SerializeField] private float cannonBallFlySpeed = 5f;
-	[SerializeField] private float cannonBallDamageAmount = 5f;
+	[SerializeField] private int cannonBallDamageAmount = 1;
 
 	private IEnumerator currentCannonBallSpawnCooldown;
 	private IEnumerator currentCannonBallSpawnCoroutine;

@@ -146,5 +146,5 @@ MonoBehaviour:
   platformSwitchTimer: 3.5
   isDangerous: 1
   isManualTimer: 0
-  damagePerTick: 5
+  damagePerTick: 1
   damageTickCooldownInSeconds: 1

@@ -125,7 +125,7 @@ MonoBehaviour:
   startSpawningOnStart: 1
   cannonBallSpawnCooldown: 2
   cannonBallFlySpeed: 25
-  cannonBallDamageAmount: 5
+  cannonBallDamageAmount: 1
 --- !u!1 &3014408182021593765
 GameObject:
   m_ObjectHideFlags: 0

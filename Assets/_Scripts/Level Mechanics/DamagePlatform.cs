@@ -13,7 +13,7 @@ public class DamagePlatform : MonoBehaviour{
 	[SerializeField] private bool isManualTimer;
 
 	[Header("Damage Variables")]
-	[SerializeField] private float damagePerTick = 5f;
+	[SerializeField] private int damagePerTick = 1;
 	[SerializeField] private float damageTickCooldownInSeconds = 1.5f;
 
 	private IEnumerator currentPlatformTimer;

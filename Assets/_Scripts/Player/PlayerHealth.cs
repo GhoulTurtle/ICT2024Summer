@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour{
 	[Header("Health Variables")]
-	[SerializeField] private float maxHealth;
+	[SerializeField] private int maxHealth;
 
 	[Header("Unity Events")]
 	public UnityEvent OnDamaged;
@@ -13,15 +13,17 @@ public class PlayerHealth : MonoBehaviour{
 	public UnityEvent OnDeath;
 
 	public Action OnDeathAction;
-	public Action<float> OnDamagedAction;
+	public Action<int> OnDamagedAction;
+	public Action<int> OnResetAction;
+	public Action<int> OnMaxHealthIncreaseAction;
 
-	private float currentHealth;
+	private int currentHealth;
 
-	private void Start(){
+	private void Awake(){
 		currentHealth = maxHealth;
 	}
 
-	public void TakeDamage(float damage, Vector3 damagePoint){
+	public void TakeDamage(int damage, Vector3 damagePoint){
 		currentHealth -= damage;
 		if(currentHealth <= 0){
 			OnDeathAction?.Invoke();
@@ -33,7 +35,7 @@ public class PlayerHealth : MonoBehaviour{
 		OnDamaged?.Invoke();
 	}
 
-	public void HealHealth(float amount){
+	public void HealHealth(int amount){
 		currentHealth += amount;
 		if(currentHealth > maxHealth) currentHealth = maxHealth;
 		OnHealed?.Invoke();
@@ -46,14 +48,28 @@ public class PlayerHealth : MonoBehaviour{
 
 	public void ResetHealth(){
 		currentHealth = maxHealth;
+		OnResetAction?.Invoke(currentHealth);
 	}
 
-	public void SetMaxHealth(float amount){
+	public void SetMaxHealth(int amount){
 		maxHealth = amount;
+		OnMaxHealthIncreaseAction?.Invoke(amount);
 		OnMaxHealthIncreased?.Invoke();
+	}
+
+	public int GetCurrentHealth(){
+		return currentHealth;
+	}
+
+	public int GetMaxHealth(){
+		return maxHealth;
 	}
 
 	public bool IsHealthFull(){
 		return currentHealth == maxHealth;
+	}
+
+	public bool IsOneHit(){
+		return currentHealth == 1;
 	}
 }

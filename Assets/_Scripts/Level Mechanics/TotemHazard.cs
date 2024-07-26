@@ -8,7 +8,7 @@ public class TotemHazard : MonoBehaviour{
 
 	[Header("Totem Hazard Variables")]
 	[SerializeField] private float rotationSpeed;
-	[SerializeField] private float damageAmountPerHit;
+	[SerializeField] private int damageAmountPerHit = 1;
 
 	private void Awake() {
 		if(totemHitterList.Count == 0){
