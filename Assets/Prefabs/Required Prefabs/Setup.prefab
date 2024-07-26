@@ -1620,7 +1620,7 @@ MonoBehaviour:
   slideSpeed: 25
   slideHeight: 0.8
   slideCooldown: 0.4
-  gravity: -12
+  gravity: -15
   groundedRadius: 0.4
   isSlideUnlocked: 0
   drawGizmos: 1
