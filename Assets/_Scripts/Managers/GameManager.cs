@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour{
 	[SerializeField] private List<DeathLoreDataSO> deathLoreDataList = new();
 	[SerializeField] private List<GameObject> spawnedInLevelParents; 
 	[SerializeField] private Transform levelSpawnPoint;
+	[SerializeField] private SpeedrunTimerUI speedrunTimer;
 	[SerializeField] private PlayerHealth playerHealth;
 
 	private DeathLoreDataSO selectedDeathLore;

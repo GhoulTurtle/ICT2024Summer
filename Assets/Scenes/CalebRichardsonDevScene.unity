@@ -3242,10 +3242,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 554380859108920820, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
-      propertyPath: spawnedInLevelParents.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1003067548600084986, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.395
@@ -3269,6 +3265,10 @@ PrefabInstance:
     - target: {fileID: 2054982990431446924, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968002283620778636, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4486562020692288098, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3325,6 +3325,10 @@ PrefabInstance:
     - target: {fileID: 7679290149617669839, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790471749705284410, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: startTimerOnStart
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8962766721060918596, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: m_LocalPosition.x

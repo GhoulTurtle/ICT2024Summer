@@ -1989,6 +1989,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1855959565}
     m_Modifications:
     - target: {fileID: 554380859108920820, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: spawnedInLevelParents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 554380859108920820, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: spawnedInLevelParents.Array.data[0]
       value: 
       objectReference: {fileID: 1179753971}
@@ -2015,6 +2019,14 @@ PrefabInstance:
     - target: {fileID: 1850541924174549503, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: slopeRayDetectDistance
       value: 1.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2054982990431446924, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2054982990431446924, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4010386928767932832, guid: 9000ef76323f30240a65b85a6f41bed5, type: 3}
       propertyPath: m_LocalPosition.z

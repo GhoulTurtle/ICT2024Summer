@@ -40,8 +40,6 @@ public class LifeLostUI : MonoBehaviour{
             case DeathBuff.Platforms_Added: deathBuffGainedText.text = "Added Platforms.";
                 break;
         }
-
-		//Death Lore
     }
 
 	public void OnContinueInput(InputAction.CallbackContext context){
